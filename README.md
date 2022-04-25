@@ -29,10 +29,23 @@ _**GoodJAXBUtilGeneric**_ : unmarshalWithSAX ->  unmarshalDefault (javax.xml.bin
 
 _**MarshallerJaxb2Wrapper**_  : Jaxb2Marshaller (org.springframework.oxm.jaxb.Jaxb2Marshaller)
 
+## Liens
+https://mkyong.com/java/jaxb-hello-world-example/
+
 ## Performance Test Report
+
+jaxb 2.3.1
+jakarta 3.0.1
 
 Type / File size | 7 MB | 70 MB
 --- | --- | ---
 *JAXB2* (/v0) | ~2.2 s | ~22.5 s
 *JAXB with SAX* (/v1) | ~300 ms | ~2 s
 *JAXB CoMPAS sct* | TODO | TODO
+
+
+Type / File size | 7 MB    | 70 MB
+--- |---------| ---
+*JAXB2* (/v0) | ~3.9 s  | ~42.5 s
+*JAXB with SAX* (/v1) | ~600 ms | ~6 s
+*JAXB CoMPAS sct* | TODO    | TODO

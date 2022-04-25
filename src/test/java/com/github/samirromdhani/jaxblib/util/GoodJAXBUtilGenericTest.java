@@ -59,6 +59,6 @@ class GoodJAXBUtilGenericTest {
         GoodJAXBUtilGeneric goodJAXBUtilGeneric = new GoodJAXBUtilGeneric();
         SCL scd = goodJAXBUtilGeneric.unmarshal(SCL.class, data);
         assertEquals(1, scd.getIED().size());
-        Files.write(Paths.get("PERF/basic-7MB.xml"), data);
+        Files.write(Paths.get("basic-7MB.xml"), data);
     }
 }
