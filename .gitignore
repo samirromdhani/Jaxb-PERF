@@ -1,0 +1,25 @@
+
+ to file
+
+# Eclipse
+.classpath
+.project
+.settings/
+ 
+# Intellij
+.idea
+.idea/
+*.iml
+*.iws
+ 
+# Mac
+.DS_Store
+src/.DS_Store
+ 
+# Maven
+log/
+target/
+
+# GitHub's file size limit of 100.00 MB
+src/main/resources/PERF/*.xml
+src/test/resources/PERF/*.xml
