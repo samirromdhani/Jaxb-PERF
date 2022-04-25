@@ -8,6 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Unmarshaller;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,4 +45,21 @@ public class JAXBTest {
         scl.getIED().forEach(tied -> list.add(tied.getName()));
         return list;
     }
+
+    @GetMapping("/v2/ieds")
+    public List<String> testv2() {
+        return null;
+    }
+
+    @GetMapping("/v3/ieds")
+    public List<String> testv3() throws JAXBException {
+        JAXBContext jaxbContext = JAXBContext.newInstance(SCL.class);
+        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+        InputStream xmlStream = getClass().getResourceAsStream("/" + BIG_FILE_M_10);
+        SCL scl = (SCL)unmarshaller.unmarshal(xmlStream);
+        List<String> list = new ArrayList<>();
+        scl.getIED().forEach(tied -> list.add(tied.getName()));
+        return list;
+    }
+
 }
