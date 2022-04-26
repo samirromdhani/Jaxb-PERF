@@ -1,6 +1,7 @@
 package com.github.samirromdhani.jaxblib;
 
 import com.github.samirromdhani.jaxblib.commons.jaxb.GoodJAXBUtilGeneric;
+import com.github.samirromdhani.jaxblib.commons.jaxb.GoodJAXBUtilWithoutSAX;
 import lombok.extern.java.Log;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -26,4 +27,8 @@ public class JaxbDemoApplication implements ApplicationRunner {
 		return new GoodJAXBUtilGeneric();
 	}
 
+	@Bean
+	public GoodJAXBUtilWithoutSAX goodJAXBUtilWithoutSAX() {
+		return new GoodJAXBUtilWithoutSAX();
+	}
 }

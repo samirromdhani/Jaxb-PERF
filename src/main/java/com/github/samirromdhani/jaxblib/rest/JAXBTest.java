@@ -2,6 +2,7 @@ package com.github.samirromdhani.jaxblib.rest;
 
 import com.github.samirromdhani.jaxblib.commons.compas.MarshallerWrapper;
 import com.github.samirromdhani.jaxblib.commons.jaxb.GoodJAXBUtilGeneric;
+import com.github.samirromdhani.jaxblib.commons.jaxb.GoodJAXBUtilWithoutSAX;
 import com.github.samirromdhani.jaxblib.commons.jaxb2.MarshallerJaxb2Wrapper;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
@@ -28,6 +29,8 @@ public class JAXBTest {
     private MarshallerJaxb2Wrapper marshallerJaxb2Wrapper;
     @Autowired
     private GoodJAXBUtilGeneric goodJAXBUtilGeneric;
+    @Autowired
+    private GoodJAXBUtilWithoutSAX goodJAXBUtilWithoutSAX;
 
     @GetMapping("/v0/ieds")
     public List<String> testv0() {
@@ -49,6 +52,15 @@ public class JAXBTest {
 
     @GetMapping("/v2/ieds")
     public List<String> testv2() {
+        InputStream xmlStream = getClass().getResourceAsStream("/" + BIG_FILE_BASIC);
+        SCL scl = goodJAXBUtilWithoutSAX.unmarshal(SCL.class, xmlStream);
+        List<String> list = new ArrayList<>();
+        scl.getIED().forEach(tied -> list.add(tied.getName()));
+        return list;
+    }
+
+    @GetMapping("/v3/ieds")
+    public List<String> testv3() {
         MarshallerWrapper marshallerWrapper = MarshallerWrapper.builder()
                 .withProperties("classpath:scl_schema.yml")
                 .build();
@@ -60,8 +72,8 @@ public class JAXBTest {
         return list;
     }
 
-    @GetMapping("/v3/ieds")
-    public List<String> testv3() throws JAXBException {
+    @GetMapping("/v4/ieds")
+    public List<String> testv4() throws JAXBException {
         JAXBContext jaxbContext = JAXBContext.newInstance(SCL.class);
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
