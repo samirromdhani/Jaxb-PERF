@@ -1,5 +1,6 @@
 package com.github.samirromdhani.jaxblib;
 
+import com.github.samirromdhani.jaxblib.commons.jakarta.JakartaMashaller;
 import com.github.samirromdhani.jaxblib.commons.jaxb.GoodJAXBUtilGeneric;
 import lombok.extern.java.Log;
 import org.springframework.boot.ApplicationArguments;
@@ -26,4 +27,6 @@ public class JaxbDemoApplication implements ApplicationRunner {
 		return new GoodJAXBUtilGeneric();
 	}
 
+	@Bean
+	public JakartaMashaller jakartaMashaller() { return new JakartaMashaller(); }
 }
