@@ -55,10 +55,10 @@ class GoodJAXBUtilGenericTest {
      */
     public static void main(String args[]) throws ScdException, IOException {
         SclUtils sclUtils = new SclUtils();
-        byte[] data = sclUtils.getData(1);
+        byte[] data = sclUtils.getData(8);
         GoodJAXBUtilGeneric goodJAXBUtilGeneric = new GoodJAXBUtilGeneric();
         SCL scd = goodJAXBUtilGeneric.unmarshal(SCL.class, data);
-        assertEquals(1, scd.getIED().size());
-        Files.write(Paths.get("basic-7MB.xml"), data);
+        assertEquals(8, scd.getIED().size());
+        Files.write(Paths.get("m8.xml"), data);
     }
 }

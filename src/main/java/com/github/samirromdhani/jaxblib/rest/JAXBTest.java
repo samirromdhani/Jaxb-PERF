@@ -10,6 +10,7 @@ import lombok.extern.java.Log;
 import org.lfenergy.compas.scl2007b4.model.SCL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.InputStream;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@Log
+@RequestMapping("/jaxb")
 public class JAXBTest {
 
     private static final String BIG_FILE_BASIC = "PERF/basic-7MB.xml";
@@ -52,7 +53,7 @@ public class JAXBTest {
                 .withProperties("classpath:scl_schema.yml")
                 .build();
 
-        InputStream xmlStream = getClass().getResourceAsStream("/" + BIG_FILE_M_10);
+        InputStream xmlStream = getClass().getResourceAsStream("/" + BIG_FILE_BASIC);
         SCL scl = marshallerWrapper.unmarshall(xmlStream, SCL.class);
         List<String> list = new ArrayList<>();
         scl.getIED().forEach(tied -> list.add(tied.getName()));
@@ -64,7 +65,7 @@ public class JAXBTest {
         JAXBContext jaxbContext = JAXBContext.newInstance(SCL.class);
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
-        InputStream xmlStream = getClass().getResourceAsStream("/" + BIG_FILE_M_10);
+        InputStream xmlStream = getClass().getResourceAsStream("/" + BIG_FILE_BASIC);
         SCL scl = (SCL) unmarshaller.unmarshal(xmlStream);
         List<String> list = new ArrayList<>();
         scl.getIED().forEach(tied -> list.add(tied.getName()));
