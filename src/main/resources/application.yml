@@ -1,15 +1,13 @@
 spring:
-  servlet:
-    multipart:
-      max-file-size: 50MB
-      max-request-size: 50MB
-  datasource:
-    data-source-properties:
-      cachePrepStmts: true
-      prepStmtCacheSize: 250
-      prepStmtCacheSqlLimit: 2048
+
 server:
   port: 8088
+  #tomcat:
+    #connectionUploadTimeout: 1800000
+    #connectionTimeout: 1800000
+    #connection-timeout: 1800000
+    #max-swallow-size: 100000000
+    #max-http-form-post-size: 100000000
 logging:
   level:
     root: INFO
