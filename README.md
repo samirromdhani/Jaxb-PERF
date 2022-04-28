@@ -27,7 +27,7 @@
 
 _**MarshallerWrapper**_  : CoMPAS SCT Commons Implementation -> unmarshalDefault (javax.xml.bind.*)
 
-_**GoodJAXBUtilGeneric**_ : unmarshalWithSAX else unmarshalDefault (javax.xml.bind.*)
+_**GoodJAXBUtilGeneric**_ : unmarshalWithSAX (javax.xml.bind.*)
 
 _**GoodJAXBUtilWithoutSAX**_ : unmarshalDefault (javax.xml.bind.*)
 
@@ -35,6 +35,10 @@ _**MarshallerJaxb2Wrapper**_  : Jaxb2Marshaller (org.springframework.oxm.jaxb.Ja
 
 ## Links
 https://mkyong.com/java/jaxb-hello-world-example/
+
+https://code-examples.net/fr/q/9ed7
+
+https://www.quora.com/What-if-any-are-the-advantages-of-JiBX-over-JAXB
 
 ## Performance Test Report
 1. **jaxb 2.3.1** 
@@ -47,8 +51,8 @@ _API Version_ | Type             | File size | File size
 ---           | ---              |    ---    | ---
 ---           | ---              |  7 MB   | 70 MB
 _jaxb/v0_ | *JAXB2*              | ~2.2 s    | ~22.5 s
-_jaxb/v1_ | *JAXB with SAX*      | ~155 ms   | ~1.5 s
-_jaxb/v2_ | *JAXB without SAX*   | ~100 ms   | ~1 s
+_jaxb/v1_ | *JAXB with SAX*      | ~2.4 ms   | ~22.5 s
+_jaxb/v2_ | *JAXB without SAX*   | ~2.2 s    | ~22.5 s
 _jaxb/v3_ | *JAXB CoMPAS sct*    | ~2.5 s    | ~23 s
 
 Training 2
@@ -98,6 +102,7 @@ FileSizeLimitExceededException
  The field file exceeds its maximum permitted size of 1048576 bytes.
 ```
 Try this solution (the default is 10MB)
+
 
 ```bash
 servlet:
