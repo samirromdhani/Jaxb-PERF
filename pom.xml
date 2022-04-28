@@ -45,26 +45,15 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<!-- JAXB-STREAM EVALUATE -->
+		<!-- JIBX TO EVALUATE -->
+
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
 			<version>2.3.1</version>
 		</dependency>
-		<!-- JAXB-STREAM EVALUATE -->
-		<!-- JIBX TO EVALUATE -->
-		<!--
-		<dependency>
-			<groupId>com.sun.xml.bind</groupId>
-			<artifactId>jaxb-impl</artifactId>
-			<version>2.3.1</version>
-		</dependency>-->
-		<!--
-		<dependency>
-			<groupId>com.sun.xml.bind</groupId>
-			<artifactId>jaxb-core</artifactId>
-			<version>3.0.0</version>
-		</dependency>
-		-->
+
 		<!-- JAXB API only -->
 		<dependency>
 			<groupId>jakarta.xml.bind</groupId>
@@ -76,7 +65,7 @@
 		<dependency>
 			<groupId>com.sun.xml.bind</groupId>
 			<artifactId>jaxb-impl</artifactId>
-			<version>3.0.2</version>
+			<version>3.0.1</version>
 			<scope>runtime</scope>
 		</dependency>
 		<!-- JAXB2 TO EVALUATE -->

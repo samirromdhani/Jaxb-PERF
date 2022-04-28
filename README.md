@@ -36,3 +36,8 @@ Type / File size | 7 MB | 70 MB
 *JAXB2* (/v0) | ~2.2 s | ~22.5 s
 *JAXB with SAX* (/v1) | ~300 ms | ~2 s
 *JAXB CoMPAS sct* | TODO | TODO
+
+
+```bash
+jakarta.xml.bind.UnmarshalException: élément inattendu (URI : "http://www.iec.ch/61850/2003/SCL", local : "SCL"). Les éléments attendus sont (none)
+```
