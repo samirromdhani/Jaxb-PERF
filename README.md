@@ -85,15 +85,39 @@ _jaxb/v4_ , _jaxb/v5_ :
 
 Training 1
 
-_API Version_ | Type                    | File size | File size
----           | ---                     |    ---    | ---
----           | ---                     |  7 MB   | 70 MB
-_jaxb/v0_ | *JAXB2*                     | ~2.2 s    | ~22.5 s
-_jaxb/v1_ | *JAXB without SAX*          | ~2.2 s    | ~1s without XSD validation
-_jaxb/v2_ | *JAXB with SAX*             | ~2.2 s    | ~1.5s without XSD validation
-_jaxb/v3_ | *JAXB CoMPAS sct*           | ~2.5 s    | ~23 s
-_jaxb/v4_ | *JAXB Jakarta without SAX*  | ~2.2 s    | ~21 s
-_jaxb/v5_ | *JAXB Jakarta with SAX*     | ~2.2 s    | ~23 s
+_API Version_ | Type                    | File size  | File size
+---           | ---                     |    ---     | ---
+---           | ---                     |  7 MB      | 70 MB
+_jaxb/v0_ | *JAXB2*                     | 2056 ms    | 18.7 s
+_jaxb/v1_ | *JAXB without SAX*          | 1843 ms    | 17.6 s
+_jaxb/v2_ | *JAXB with SAX*             | 1936 ms    | 19 s
+_jaxb/v3_ | *JAXB CoMPAS sct*           | 1857 ms    | 17.6 s
+_jaxb/v4_ | *JAXB Jakarta without SAX*  | 1749 ms    | 17.5 s
+_jaxb/v5_ | *JAXB Jakarta with SAX*     | 1930 ms    | 20.5 s
+
+Training 2
+
+_API Version_ | Type                    | File size  | File size
+---           | ---                     |    ---     | ---
+---           | ---                     |  7 MB      | 70 MB
+_jaxb/v0_ | *JAXB2*                     | 2079 ms    | 18.3 s
+_jaxb/v1_ | *JAXB without SAX*          | 1963 ms    | 19 s
+_jaxb/v2_ | *JAXB with SAX*             | 1916 ms    | 20.2 s
+_jaxb/v3_ | *JAXB CoMPAS sct*           | 1810 ms    | 18.8 s
+_jaxb/v4_ | *JAXB Jakarta without SAX*  | 1727 ms    | 19.4 s
+_jaxb/v5_ | *JAXB Jakarta with SAX*     | 1917 ms    | 19.2 s
+
+Training 3
+
+_API Version_ | Type                    | File size  | File size
+---           | ---                     |    ---     | ---
+---           | ---                     |  7 MB      | 70 MB
+_jaxb/v0_ | *JAXB2*                     | 2105 ms    | 18.4 s
+_jaxb/v1_ | *JAXB without SAX*          | 1855 ms    | 17.3 s
+_jaxb/v2_ | *JAXB with SAX*             | 1898 ms    | 21.1 s
+_jaxb/v3_ | *JAXB CoMPAS sct*           | 1826 ms    | 19.3 s
+_jaxb/v4_ | *JAXB Jakarta without SAX*  | 1703 ms    | 18.2 s
+_jaxb/v5_ | *JAXB Jakarta with SAX*     | 1918 ms    | 20.5 s
 
 
 ## Performance Test Related request type FormData
