@@ -1,6 +1,7 @@
 package com.github.jaxblib.commons.jakarta;
 
 import com.github.jaxblib.commons.JAXBUtil;
+import com.github.jaxblib.xsd.jakarta.model.SCL;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
@@ -17,8 +18,8 @@ import javax.xml.transform.sax.SAXSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import java.io.*;
+
 // import org.lfenergy.compas.scl2007b4.model.SCL;
-import com.github.jaxblib.xsd.jakarta.model.SCL;
 
 public class JakartaSCLJaxbImpl implements JAXBUtil<SCL> {
 
@@ -26,9 +27,8 @@ public class JakartaSCLJaxbImpl implements JAXBUtil<SCL> {
     private static JAXBContext context;
     static{
         try {
-            //context = JAXBContext.newInstance(SCL.class);
-            context = org.eclipse.persistence.jaxb.JAXBContextFactory
-                    .createContext(new Class[]{SCL.class}, null);
+            context = JAXBContext.newInstance(SCL.class);
+            //context = org.eclipse.persistence.jaxb.JAXBContextFactory.createContext(new Class[]{SCL.class}, null);
         } catch (JAXBException ex) {
             throw new RuntimeException(ex);
         }

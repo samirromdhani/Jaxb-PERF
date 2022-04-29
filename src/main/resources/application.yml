@@ -2,12 +2,13 @@ spring:
 
 server:
   port: 8088
-  #tomcat:
-    #connectionUploadTimeout: 1800000
-    #connectionTimeout: 1800000
-    #connection-timeout: 1800000
-    #max-swallow-size: 100000000
-    #max-http-form-post-size: 100000000
+  connection-timeout: -1
+  tomcat:
+    connectionUploadTimeout: 1800000
+    connectionTimeout: 1800000
+    connection-timeout: 1800000
+    max-swallow-size: 100000000
+    max-http-form-post-size: 100000000
 logging:
   level:
     root: INFO

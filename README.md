@@ -71,54 +71,70 @@ _jaxb/v0_
 
 _jaxb/v1_ , _jaxb/v2_ , _jaxb/v3_  :
 
-* Use default package based javax api : org.lfenergy.compas.scl2007b4.model.SCL
+* Using default package based javax api : org.lfenergy.compas.scl2007b4.model.SCL
 
 ### **jaxb 3.0.0** (java, jakarta)
 
 _jaxb/v4_ , _jaxb/v5_ :
 
-* Use custom package based jakarta api : com.github.jaxblib.xsd.jakarta.model.SCL
+* Using custom package based jakarta api : com.github.jaxblib.xsd.jakarta.model.SCL
 
     instead of org.lfenergy.compas.scl2007b4.model.SCL
 ### Test unmarshalling
 * convert file to Java objects (SCL)
 
-Training 1
+### #1
 
-_API Version_ | Type                    | File size  | File size
----           | ---                     |    ---     | ---
----           | ---                     |  7 MB      | 70 MB
-_jaxb/v0_ | *JAXB2*                     | 2056 ms    | 18.7 s
-_jaxb/v1_ | *JAXB without SAX*          | 1843 ms    | 17.6 s
-_jaxb/v2_ | *JAXB with SAX*             | 1936 ms    | 19 s
-_jaxb/v3_ | *JAXB CoMPAS sct*           | 1857 ms    | 17.6 s
-_jaxb/v4_ | *JAXB Jakarta without SAX*  | 1749 ms    | 17.5 s
-_jaxb/v5_ | *JAXB Jakarta with SAX*     | 1930 ms    | 20.5 s
 
-Training 2
+_API Version_ | Type                    | File size  | File size  | File size
+---           | ---                     |    ---     | ---        | ---
+---           | ---                     |  7 MB      | 70 MB      | 328 MB
+_jaxb/v0_ | *JAXB2*                     | 2056 ms    | 18.7 s     | 1m 35s
+_jaxb/v1_ | *JAXB*                      | 1843 ms    | 17.6 s     | 1m 35s
+_jaxb/v2_ | *JAXB with SAX*             | 1936 ms    | 19 s       | 1m 48s
+_jaxb/v3_ | *JAXB CoMPAS sct*           | 1857 ms    | 17.6 s     | 1m 45s
+_jaxb/v4_ | *JAXB Jakarta*              | 1749 ms    | 17.5 s     | 1m 43s
+_jaxb/v5_ | *JAXB Jakarta with SAX*     | 1930 ms    | 20.5 s     | 1m 44s
 
-_API Version_ | Type                    | File size  | File size
----           | ---                     |    ---     | ---
----           | ---                     |  7 MB      | 70 MB
-_jaxb/v0_ | *JAXB2*                     | 2079 ms    | 18.3 s
-_jaxb/v1_ | *JAXB without SAX*          | 1963 ms    | 19 s
-_jaxb/v2_ | *JAXB with SAX*             | 1916 ms    | 20.2 s
-_jaxb/v3_ | *JAXB CoMPAS sct*           | 1810 ms    | 18.8 s
-_jaxb/v4_ | *JAXB Jakarta without SAX*  | 1727 ms    | 19.4 s
-_jaxb/v5_ | *JAXB Jakarta with SAX*     | 1917 ms    | 19.2 s
+### #2
 
-Training 3
+_API Version_ | Type                    | File size  | File size  | File size
+---           | ---                     |    ---     | ---        | ---
+---           | ---                     |  7 MB      | 70 MB      | 328 MB
+_jaxb/v0_ | *JAXB2*                     | 2079 ms    | 18.3 s     | 1m 43s
+_jaxb/v1_ | *JAXB*                      | 1963 ms   | 19 s       | 1m 35s
+_jaxb/v2_ | *JAXB with SAX*             | 1916 ms    | 20.2 s     | 1m 50s
+_jaxb/v3_ | *JAXB CoMPAS sct*           | 1810 ms    | 18.8 s     | 1m 48s
+_jaxb/v4_ | *JAXB Jakarta*  | 1727 ms   | 19.4 s     | 1m 41s
+_jaxb/v5_ | *JAXB Jakarta with SAX*     | 1917 ms    | 19.2 s     | 1m 47s 
 
-_API Version_ | Type                    | File size  | File size
----           | ---                     |    ---     | ---
----           | ---                     |  7 MB      | 70 MB
-_jaxb/v0_ | *JAXB2*                     | 2105 ms    | 18.4 s
-_jaxb/v1_ | *JAXB without SAX*          | 1855 ms    | 17.3 s
-_jaxb/v2_ | *JAXB with SAX*             | 1898 ms    | 21.1 s
-_jaxb/v3_ | *JAXB CoMPAS sct*           | 1826 ms    | 19.3 s
-_jaxb/v4_ | *JAXB Jakarta without SAX*  | 1703 ms    | 18.2 s
-_jaxb/v5_ | *JAXB Jakarta with SAX*     | 1918 ms    | 20.5 s
+### #3
+_API Version_ | Type                    | File size  | File size  | File size
+---           | ---                     |    ---     | ---        | ---
+---           | ---                     |  7 MB      | 70 MB      | 328 MB
+_jaxb/v0_ | *JAXB2*                     | 2105 ms    | 18.4 s     | 1m 41s
+_jaxb/v1_ | *JAXB*                      | 1855 ms    | 17.3 s     | 1m 44s
+_jaxb/v2_ | *JAXB with SAX*             | 1898 ms    | 21.1 s     | 1m 46s
+_jaxb/v3_ | *JAXB CoMPAS sct*           | 1826 ms    | 19.3 s     | 1m 43s
+_jaxb/v4_ | *JAXB Jakarta*              | 1703 ms    | 18.2 s     | 1m 45s
+_jaxb/v5_ | *JAXB Jakarta with SAX*     | 1918 ms    | 20.5 s     | 1m 49s
 
+
+### Test marshalling TODO
+* convert Java objects (SCL) to string or bytes
+
+### #1
+
+
+_API Version_ | Type                    | File size  | File size  | File size
+---           | ---                     |    ---     | ---        | ---
+---           | ---                     |  7 MB      | 70 MB      | 328 MB
+_jaxb/v0_ | *JAXB2*                     |   ----     |   ----     |   ----
+_jaxb/v1_ | *JAXB*                      |   ----     |   ----     |   ----
+_jaxb/v2_ | *JAXB with SAX*             |   ----     |   ----     |   ----
+_jaxb/v3_ | *JAXB CoMPAS sct*           |   ----     |   ----     |   ----
+_jaxb/v4_ | *JAXB Jakarta*              |   ----     |   ----     |   ----
+_jaxb/v5_ | *JAXB Jakarta with SAX*     |   ----     |   ----     |   ----
 
 ## Performance Test Related request type FormData
 **Client:** `Firefox` `Edge`

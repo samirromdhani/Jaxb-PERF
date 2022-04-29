@@ -21,6 +21,7 @@ public class GlobalRestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value= { Exception.class })
     public ResponseEntity<GenericResponse> handleServerException(Exception ex, WebRequest request) {
         log.severe("exception: "+ex.getMessage());
+        log.severe("exception: "+ex.getCause());
         GenericResponse resp = new GenericResponse(ex.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR.value());
         return  new ResponseEntity<>(resp, HttpStatus.INTERNAL_SERVER_ERROR);
     }

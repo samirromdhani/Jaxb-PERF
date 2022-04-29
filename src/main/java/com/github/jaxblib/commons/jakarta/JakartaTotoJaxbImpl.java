@@ -22,9 +22,8 @@ public class JakartaTotoJaxbImpl implements JAXBUtil<Toto> {
     private static JAXBContext context;
     static{
         try {
-            //context = JAXBContext.newInstance(MyJAXBObject.class);
-            context = org.eclipse.persistence.jaxb.JAXBContextFactory
-                    .createContext(new Class[]{Toto.class}, null);
+            context = JAXBContext.newInstance(Toto.class);
+            //context = org.eclipse.persistence.jaxb.JAXBContextFactory.createContext(new Class[]{Toto.class}, null);
         } catch (JAXBException ex) {
             throw new RuntimeException(ex);
         }

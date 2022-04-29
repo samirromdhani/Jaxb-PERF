@@ -55,10 +55,10 @@ class SclUtilTest {
      */
     public static void main(String args[]) throws ScdException, IOException {
         SclUtils sclUtils = new SclUtils();
-        byte[] data = sclUtils.getData(8);
+        byte[] data = sclUtils.getData(50);
         JavaJAXBUtilGeneric goodJAXBUtilGeneric = new JavaJAXBUtilGeneric();
         SCL scd = goodJAXBUtilGeneric.unmarshal(SCL.class, data);
-        assertEquals(8, scd.getIED().size());
-        Files.write(Paths.get("m8.xml"), data);
+        assertEquals(50, scd.getIED().size());
+        Files.write(Paths.get("m50.xml"), data);
     }
 }
