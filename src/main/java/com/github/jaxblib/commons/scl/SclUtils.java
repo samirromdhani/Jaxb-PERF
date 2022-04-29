@@ -1,6 +1,6 @@
 package com.github.jaxblib.commons.scl;
 
-import com.github.jaxblib.commons.jaxb.GoodJAXBUtilGeneric;
+import com.github.jaxblib.commons.jaxb.JavaJAXBUtilGeneric;
 import org.lfenergy.compas.scl2007b4.model.SCL;
 import org.lfenergy.compas.sct.commons.dto.HeaderDTO;
 import org.lfenergy.compas.sct.commons.exception.ScdException;
@@ -17,7 +17,7 @@ import java.util.UUID;
 public class SclUtils {
 
     public byte[] getData(Integer numberofIED) throws ScdException, IOException {
-        GoodJAXBUtilGeneric goodJAXBUtilGeneric = new GoodJAXBUtilGeneric();
+        JavaJAXBUtilGeneric goodJAXBUtilGeneric = new JavaJAXBUtilGeneric();
         HeaderDTO headerDTO = new HeaderDTO(UUID.randomUUID(), "hv", "hr");
         SclRootAdapter sclRootAdapter = SclService.initScl(Optional.empty(), headerDTO.getVersion(), headerDTO.getRevision());
         SCL scd = sclRootAdapter.getCurrentElem();
@@ -30,7 +30,7 @@ public class SclUtils {
     }
 
     public SCL getSCLObject(Integer numberofIED) throws ScdException, IOException {
-        GoodJAXBUtilGeneric goodJAXBUtilGeneric = new GoodJAXBUtilGeneric();
+        JavaJAXBUtilGeneric goodJAXBUtilGeneric = new JavaJAXBUtilGeneric();
 
         HeaderDTO headerDTO = new HeaderDTO(UUID.randomUUID(), "hv", "hr");
         SclRootAdapter sclRootAdapter = SclService.initScl(Optional.empty(), headerDTO.getVersion(), headerDTO.getRevision());

@@ -6,88 +6,106 @@
 * [Notes](#notes)
 * [Links](#links)
 * [Performance Test Report](#performance-test-report)
-* [Performance Test Related request type](#performance-test-related-request-type)
+* [Performance Test Related request type](#performance-test-related-request-type-FormData)
 
 ## General info
 **Evaluating jaxb performance (jaxb2) by comparing it with others technologies**
 
 ## Technologies
-### Java API
-* JAXB: default
-* JAXB: with SAX
-### CoMPAS SCT Commons
-* JAXB: MarshallerWrapper
-### Spring Feature
-* JAXB2: MarshallerJaxb2Wrapper (current) 
-### Others
+#### Java API
+* JAXB: (jaxb-api 2.3.1)
+* JAXB: (jakarta.xml.bind-api 3.0.0)
+#### CoMPAS SCT Commons
+* JAXB: (jaxb-impl 2.3.6) 
+#### Spring (current)
+* JAXB2: OXM (Object XML Mapping) 
+#### Others
 * JAXB-STREAM 
 * JIBX 
 
 ## Notes
 
-_**MarshallerWrapper**_  : CoMPAS SCT Commons Implementation -> unmarshalDefault (javax.xml.bind.*)
-
-_**GoodJAXBUtilGeneric**_ : unmarshalWithSAX (javax.xml.bind.*)
-
-_**GoodJAXBUtilWithoutSAX**_ : unmarshalDefault (javax.xml.bind.*)
-
 _**MarshallerJaxb2Wrapper**_  : Jaxb2Marshaller (org.springframework.oxm.jaxb.Jaxb2Marshaller)
 
+_**JavaSCLJaxbImpl**_ : (javax.xml.bind.*)
+
+_**MarshallerWrapper**_  : CoMPAS sct (javax.xml.bind.*)
+
+_**JakartaSCLJaxbImpl**_  : (jakarta.xml.bind.*)
+<!--
+```bash
+JavaSCLJaxbImpl implements JAXBUtil<SCL>
+```
+```bash
+JakartaSCLJaxbImpl implements JAXBUtil<SCL>
+```
+```bash
+public interface JAXBUtil<T extends Object> {
+    byte[] marshal(T element);
+    T unmarshal(String xml);
+    T unmarshal(InputStream xml) throws IOException;
+    T unmarshal(byte[] bytes) throws IOException;
+
+    // SAX Utils
+    String JAXP_SCHEMA_LANGUAGE = "http://java.sun.com/xml/jaxp/properties/schemaLanguage";
+    String W3C_XML_SCHEMA = "http://www.w3.org/2001/XMLSchema";
+    T unmarshalWithSAX(InputSource inputSource) throws ParserConfigurationException, SAXException, JAXBException, jakarta.xml.bind.JAXBException;
+    T unmarshalWithSAX(InputStream inputStream) throws JAXBException, ParserConfigurationException, SAXException, jakarta.xml.bind.JAXBException;
+    
+    String getName();
+}
+```
+-->
+
 ## Links
-https://mkyong.com/java/jaxb-hello-world-example/
-
-https://code-examples.net/fr/q/9ed7
-
-https://www.quora.com/What-if-any-are-the-advantages-of-JiBX-over-JAXB
+JAXB on Java 9, 10, 11 and beyond :
+https://jesperdj.com/2018/09/30/jaxb-on-java-9-10-11-and-beyond/
 
 ## Performance Test Report
-1. **jaxb 2.3.1** 
 
-**unmarshall** convert file to Java objects (SCL)
+### **jaxb2** (spring)
+
+_jaxb/v0_
+
+### **jaxb 2.3.1** (java)
+
+_jaxb/v1_ , _jaxb/v2_ , _jaxb/v3_  :
+
+* Use default package based javax api : org.lfenergy.compas.scl2007b4.model.SCL
+
+### **jaxb 3.0.0** (java, jakarta)
+
+_jaxb/v4_ , _jaxb/v5_ :
+
+* Use custom package based jakarta api : com.github.jaxblib.xsd.jakarta.model.SCL
+
+    instead of org.lfenergy.compas.scl2007b4.model.SCL
+### Test unmarshalling
+* convert file to Java objects (SCL)
 
 Training 1
 
-_API Version_ | Type             | File size | File size
----           | ---              |    ---    | ---
----           | ---              |  7 MB   | 70 MB
-_jaxb/v0_ | *JAXB2*              | ~2.2 s    | ~22.5 s
-_jaxb/v1_ | *JAXB with SAX*      | ~2.4 ms   | ~22.5 s
-_jaxb/v2_ | *JAXB without SAX*   | ~2.2 s    | ~22.5 s
-_jaxb/v3_ | *JAXB CoMPAS sct*    | ~2.5 s    | ~23 s
+_API Version_ | Type                    | File size | File size
+---           | ---                     |    ---    | ---
+---           | ---                     |  7 MB   | 70 MB
+_jaxb/v0_ | *JAXB2*                     | ~2.2 s    | ~22.5 s
+_jaxb/v1_ | *JAXB without SAX*          | ~2.2 s    | ~1s without XSD validation
+_jaxb/v2_ | *JAXB with SAX*             | ~2.2 s    | ~1.5s without XSD validation
+_jaxb/v3_ | *JAXB CoMPAS sct*           | ~2.5 s    | ~23 s
+_jaxb/v4_ | *JAXB Jakarta without SAX*  | ~2.2 s    | ~21 s
+_jaxb/v5_ | *JAXB Jakarta with SAX*     | ~2.2 s    | ~23 s
 
-Training 2
 
-_API Version_ | Type             | File size | File size
----           | ---              |    ---    | ---
----           | ---              |  7 MB     | 70 MB
-_jaxb/v0_ | *JAXB2*              | ~3.9 s    | ~42.5 s
-_jaxb/v1_ | *JAXB with SAX*      | ~600 ms   | ~6 s
-_jaxb/v2_ | *JAXB without SAX*   | TODO      | TODO
-_jaxb/v3_ | *JAXB CoMPAS sct*    | TODO      | TODO
-
-2. _jaxb/v4_ : TODO with jaxb jakarta 3.0.1
-
-## Performance Test Related request type 
+## Performance Test Related request type FormData
 **Client:** `Firefox` `Edge`
 
 Scenario : add file `~6MB` in file `[7MB, 13,5MB, 26.6MB, 52.8MB, 70MB]`
-
-### Request Type
-1. **FormData**
 
 1. unmarshall `[7MB, 13,5MB, 26.6MB, 52.8MB, 70MB]`
 2. unmarshall `~6MB`
 3. marshall result
 
-_API Version_ | Type | File size | File size | File size | File size | File size
---- | --- | --- | --- | --- | --- | ---
----  |   ---                    |  7 MB  |~13.5 MB | ~26.6 MB | 52.8MB | 70 MB
-_jaxb/v0_ | *JAXB2*             | ~9.3s  |  ~14s   | ~24s     | ~43s   | ~51s
-_jaxb/v1_ | *JAXB with SAX*     | ~500ms | ~700ms  | ~1.2s    | ~2.2s  | ~3s
-_jaxb/v2_ | *JAXB without SAX*  | ~400ms | ~600ms  | ~900ms   | ~1.6s  | ~2s 
-_jaxb/v3_ | *JAXB CoMPAS sct*   | ~9.3s  | ~14s    | ~23s     | ~41s   | ~51s
-
-Sometime in case of file > 50 MB we have this kind of exceptions **MultipartException** and **FileSizeLimitExceededException**
+In case of file > 50 MB we have this kind of exceptions **MultipartException** and **FileSizeLimitExceededException**
 ```bash
 MultipartException
 
@@ -102,7 +120,6 @@ FileSizeLimitExceededException
  The field file exceeds its maximum permitted size of 1048576 bytes.
 ```
 Try this solution (the default is 10MB)
-
 
 ```bash
 servlet:
@@ -120,24 +137,3 @@ or
 		return factory.createMultipartConfig();
 	}
 ```
-
-2. **XML object** 
-
-Consuming XML in Spring Boot Instead of MultipartFile
-
-1. unmarshall `[7MB, 13,5MB, 26.6MB, 52.8MB, 70MB]`
-2. ~~unmarshall~~ ~6MB
-3. marshall result
-
-
-_API Version_ | Type | File size | File size | File size | File size | File size
---- | --- | --- | --- | --- | --- | ---
----  |   ---                    |  7 MB  |~13.5 MB | ~26.6 MB | 52.8MB | 70 MB
-_jaxb/v0_ | *JAXB2*             |  ~7s   |  ~13s   |  ------  |  ~40s  |  ~50s
-_jaxb/v1_ | *JAXB with SAX*     | ~450ms | ~600ms  |  ------  |  ~2s   | ~2.5s
-_jaxb/v2_ | *JAXB without SAX*  | ~400ms | ~500ms  |  ------  |  ~1.6s | ~2s
-_jaxb/v3_ | *JAXB CoMPAS sct*   |   ~7s  |  ~12s   |  ------  |  ~40s  | ~50s
-
-
-
-

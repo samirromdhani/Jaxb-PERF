@@ -1,6 +1,6 @@
 package com.github.jaxblib.util;
 
-import com.github.jaxblib.commons.jaxb.GoodJAXBUtilGeneric;
+import com.github.jaxblib.commons.jaxb.JavaJAXBUtilGeneric;
 import com.github.jaxblib.commons.scl.SclUtils;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -17,11 +17,11 @@ import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Disabled
-class GoodJAXBUtilGenericTest {
+class SclUtilTest {
 
     private static final String BIG_FILE_BASIC = "PERF/basic-7MB.xml";
     private static final String BIG_FILE_M_10 = "PERF/m10-70MB.xml";
-    private final GoodJAXBUtilGeneric goodJAXBUtilGeneric = new GoodJAXBUtilGeneric();
+    private final JavaJAXBUtilGeneric goodJAXBUtilGeneric = new JavaJAXBUtilGeneric();
 
     @Test
     void getData() throws IOException {
@@ -56,7 +56,7 @@ class GoodJAXBUtilGenericTest {
     public static void main(String args[]) throws ScdException, IOException {
         SclUtils sclUtils = new SclUtils();
         byte[] data = sclUtils.getData(8);
-        GoodJAXBUtilGeneric goodJAXBUtilGeneric = new GoodJAXBUtilGeneric();
+        JavaJAXBUtilGeneric goodJAXBUtilGeneric = new JavaJAXBUtilGeneric();
         SCL scd = goodJAXBUtilGeneric.unmarshal(SCL.class, data);
         assertEquals(8, scd.getIED().size());
         Files.write(Paths.get("m8.xml"), data);

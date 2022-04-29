@@ -1,13 +1,9 @@
 package com.github.jaxblib.rest;
 
 import com.github.jaxblib.commons.compas.MarshallerWrapper;
-import com.github.jaxblib.commons.jaxb.GoodJAXBUtilGeneric;
-import com.github.jaxblib.commons.jaxb.GoodJAXBUtilWithoutSAX;
+import com.github.jaxblib.commons.jakarta.JakartaSCLJaxbImpl;
+import com.github.jaxblib.commons.jaxb.JavaSCLJaxbImpl;
 import com.github.jaxblib.commons.jaxb2.MarshallerJaxb2Wrapper;
-import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.JAXBException;
-import jakarta.xml.bind.Marshaller;
-import jakarta.xml.bind.Unmarshaller;
 import lombok.extern.java.Log;
 import org.lfenergy.compas.scl2007b4.model.SCL;
 import org.lfenergy.compas.sct.commons.dto.IedDTO;
@@ -18,7 +14,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.xml.sax.SAXException;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -41,9 +43,10 @@ public class JAXBTestConsumeFormData {
     @Autowired
     private MarshallerJaxb2Wrapper marshallerJaxb2Wrapper;
     @Autowired
-    private GoodJAXBUtilGeneric goodJAXBUtilGeneric;
+    private JavaSCLJaxbImpl javaSCLService;
+
     @Autowired
-    private GoodJAXBUtilWithoutSAX goodJAXBUtilWithoutSAX;
+    private JakartaSCLJaxbImpl jakartaSCLJaxb;
 
     @PutMapping(value = "/v0/ieds",
             consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}
@@ -64,12 +67,12 @@ public class JAXBTestConsumeFormData {
             consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}
     )
     public ResponseEntity<?> testv01(@RequestPart(value = "file") MultipartFile file,
-                               @RequestPart(value = "data") IedDTO iedDTO) throws IOException, ScdException {
+                               @RequestPart(value = "data") IedDTO iedDTO) throws IOException, ScdException, JAXBException, ParserConfigurationException, SAXException {
         InputStream xmlStream = getClass().getResourceAsStream("/" + CURRENT_FILE_TEST);
-        SCL scd = goodJAXBUtilGeneric.unmarshal(SCL.class, xmlStream);
-        SCL icd = goodJAXBUtilGeneric.unmarshal(SCL.class, file.getBytes());
+        SCL scd = javaSCLService.unmarshalWithSAX(xmlStream);
+        SCL icd =  javaSCLService.unmarshalWithSAX(file.getInputStream());
         SclService.addIED(scd, iedDTO.getName(), icd);
-        byte[] rawXml = goodJAXBUtilGeneric.marshal(scd);
+        byte[] rawXml = javaSCLService.marshal(scd);
         List<String> list = new ArrayList<>();
         scd.getIED().forEach(tied -> list.add(tied.getName()));
         return ResponseEntity.ok().body(list);
@@ -81,10 +84,10 @@ public class JAXBTestConsumeFormData {
     public ResponseEntity<?> testv02(@RequestPart(value = "file") MultipartFile file,
                                      @RequestPart(value = "data") IedDTO iedDTO) throws IOException, ScdException {
         InputStream xmlStream = getClass().getResourceAsStream("/" + CURRENT_FILE_TEST);
-        SCL scd = goodJAXBUtilWithoutSAX.unmarshal(SCL.class, xmlStream);
-        SCL icd = goodJAXBUtilWithoutSAX.unmarshal(SCL.class, file.getBytes());
+        SCL scd = javaSCLService.unmarshal(xmlStream);
+        SCL icd = javaSCLService.unmarshal(file.getBytes());
         SclService.addIED(scd, iedDTO.getName(), icd);
-        byte[] rawXml = goodJAXBUtilWithoutSAX.marshal(scd);
+        byte[] rawXml = javaSCLService.marshal(scd);
         List<String> list = new ArrayList<>();
         scd.getIED().forEach(tied -> list.add(tied.getName()));
         return ResponseEntity.ok().body(list);
@@ -110,23 +113,18 @@ public class JAXBTestConsumeFormData {
     }
 
     /**
-     * TODO
-     * jakarta
+     * use com.github.jaxblib.xsd.jakarta.model.SCL;
      */
     @PutMapping(value = "/v4/ieds",
             consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}
     )
     public List<String> testv4(@RequestPart(value = "file") MultipartFile file,
-                               @RequestPart(value = "data") IedDTO iedDTO) throws ScdException, JAXBException {
-        JAXBContext jaxbContext = JAXBContext.newInstance(SCL.class);
-        Marshaller marshaller = jaxbContext.createMarshaller();
-        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-
+                               @RequestPart(value = "data") IedDTO iedDTO) throws ScdException, IOException {
         InputStream xmlStream = getClass().getResourceAsStream("/" + CURRENT_FILE_TEST);
-        SCL scd = (SCL) unmarshaller.unmarshal(xmlStream);
-        SCL icd = (SCL) unmarshaller.unmarshal(xmlStream);
-        SclService.addIED(scd, iedDTO.getName(), icd);
-        //byte[] rawXml = marshaller.marshal(scd, xmlStream);
+        com.github.jaxblib.xsd.jakarta.model.SCL scd = jakartaSCLJaxb.unmarshal(xmlStream);
+        com.github.jaxblib.xsd.jakarta.model.SCL icd = jakartaSCLJaxb.unmarshal(xmlStream);
+        //SclService.addIED(scd, iedDTO.getName(), icd);
+        byte[] rawXml = jakartaSCLJaxb.marshal(scd);
         List<String> list = new ArrayList<>();
         scd.getIED().forEach(tied -> list.add(tied.getName()));
         return list;

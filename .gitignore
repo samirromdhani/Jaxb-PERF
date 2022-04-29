@@ -23,3 +23,9 @@ target/
 # GitHub's file size limit of 100.00 MB
 # src/main/resources/PERF/*.xml
 # src/test/resources/PERF/*.xml
+
+# Eclipse m2e generated files
+# Eclipse Core
+.project
+# JDT-specific (Eclipse Java Development Tools)
+.classpath

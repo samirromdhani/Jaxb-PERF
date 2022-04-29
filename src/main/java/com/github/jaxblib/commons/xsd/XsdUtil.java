@@ -1,8 +1,6 @@
 package com.github.jaxblib.commons.xsd;
 
 import com.github.jaxblib.commons.jaxb.JaxbContextHolder;
-import lombok.extern.java.Log;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.SchemaOutputResolver;
 import javax.xml.transform.Result;
@@ -12,7 +10,6 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Log
 public class XsdUtil<T> {
     private static final Map<Class, String> SCHEMA_MAP = new ConcurrentHashMap<>();
     

@@ -1,9 +1,10 @@
 package com.github.jaxblib.rest;
 
-import com.github.jaxblib.commons.jaxb.GoodJAXBUtilGeneric;
 import com.github.jaxblib.commons.compas.MarshallerWrapper;
-import com.github.jaxblib.commons.jaxb.GoodJAXBUtilWithoutSAX;
+import com.github.jaxblib.commons.jakarta.JakartaSCLJaxbImpl;
+import com.github.jaxblib.commons.jaxb.JavaSCLJaxbImpl;
 import com.github.jaxblib.commons.jaxb2.MarshallerJaxb2Wrapper;
+import jakarta.xml.bind.JAXBException;
 import lombok.extern.java.Log;
 import org.lfenergy.compas.scl2007b4.model.SCL;
 import org.lfenergy.compas.sct.commons.exception.ScdException;
@@ -12,6 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -32,9 +37,9 @@ public class JAXBTestConsumeXML {
     @Autowired
     private MarshallerJaxb2Wrapper marshallerJaxb2Wrapper;
     @Autowired
-    private GoodJAXBUtilGeneric goodJAXBUtilGeneric;
+    private JavaSCLJaxbImpl javaSCLService;
     @Autowired
-    private GoodJAXBUtilWithoutSAX goodJAXBUtilWithoutSAX;
+    private JakartaSCLJaxbImpl jakartaSCLJaxb;
 
     @PutMapping(value = "/v0/ieds",
             consumes = {MediaType.APPLICATION_XML_VALUE}
@@ -53,12 +58,12 @@ public class JAXBTestConsumeXML {
     @PutMapping(value = "/v1/ieds",
             consumes = {MediaType.APPLICATION_XML_VALUE}
     )
-    public ResponseEntity<?> testv01(@RequestBody SCL scl) throws ScdException {
+    public ResponseEntity<?> testv01(@RequestBody SCL scl) throws ScdException, JAXBException, ParserConfigurationException, SAXException, javax.xml.bind.JAXBException {
         InputStream xmlStream = getClass().getResourceAsStream("/" + CURRENT_FILE_TEST);
-        SCL scd = goodJAXBUtilGeneric.unmarshal(SCL.class, xmlStream);
+        SCL scd = javaSCLService.unmarshalWithSAX(xmlStream);
         SclService.addIED(scd, "iedName", scl);
         List<String> list = new ArrayList<>();
-        byte[] rawXml = goodJAXBUtilGeneric.marshal(scd);
+        byte[] rawXml = javaSCLService.marshal(scd);
         scd.getIED().forEach(tied -> list.add(tied.getName()));
         return ResponseEntity.ok().body(list);
     }
@@ -66,12 +71,12 @@ public class JAXBTestConsumeXML {
     @PutMapping(value = "/v2/ieds",
             consumes = {MediaType.APPLICATION_XML_VALUE}
     )
-    public ResponseEntity<?> testv02(@RequestBody SCL scl) throws ScdException {
+    public ResponseEntity<?> testv02(@RequestBody SCL scl) throws ScdException, IOException {
         InputStream xmlStream = getClass().getResourceAsStream("/" + CURRENT_FILE_TEST);
-        SCL scd = goodJAXBUtilWithoutSAX.unmarshal(SCL.class, xmlStream);
+        SCL scd = javaSCLService.unmarshal(xmlStream);
         SclService.addIED(scd, "iedName", scl);
         List<String> list = new ArrayList<>();
-        byte[] rawXml = goodJAXBUtilWithoutSAX.marshal(scd);
+        byte[] rawXml = javaSCLService.marshal(scd);
         scd.getIED().forEach(tied -> list.add(tied.getName()));
         return ResponseEntity.ok().body(list);
     }
@@ -91,15 +96,19 @@ public class JAXBTestConsumeXML {
         return ResponseEntity.ok().body(list);
     }
 
-    /**
-     * TODO
-     * jakarta
-     */
+
     @PutMapping(value = "/v4/ieds",
             consumes = {MediaType.APPLICATION_XML_VALUE}
     )
-    public ResponseEntity<?> testv04(@RequestBody SCL scl) throws ScdException {
-        return ResponseEntity.ok().body(null);
+    public List<String> testv04(@RequestBody SCL icd) throws ScdException, IOException {
+        InputStream xmlStream = getClass().getResourceAsStream("/" + CURRENT_FILE_TEST);
+        com.github.jaxblib.xsd.jakarta.model.SCL scd = jakartaSCLJaxb.unmarshal(xmlStream);
+        //com.github.jaxblib.xsd.jakarta.model.SCL icd = jakartaSCLJaxb.unmarshal(xmlStream);
+        //SclService.addIED(scd, "ied1", icd);
+        byte[] rawXml = jakartaSCLJaxb.marshal(scd);
+        List<String> list = new ArrayList<>();
+        scd.getIED().forEach(tied -> list.add(tied.getName()));
+        return list;
     }
 
 }
