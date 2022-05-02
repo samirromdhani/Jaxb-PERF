@@ -1,5 +1,4 @@
 
- to file
 
 # Eclipse
 .classpath
@@ -19,6 +18,9 @@ src/.DS_Store
 # Maven
 log/
 target/
+
+# mvn -N io.takari:maven:wrapper
+!.mvn/wrapper/maven-wrapper.jar
 
 # GitHub's file size limit of 100.00 MB
 # src/main/resources/PERF/*.xml

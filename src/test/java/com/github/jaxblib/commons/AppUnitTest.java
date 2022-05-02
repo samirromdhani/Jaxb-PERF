@@ -17,7 +17,7 @@ public class AppUnitTest
     private static final String BASIC_FILE = "PERF/basic-7MB.xml";
     private static final String BIG_FILE = "PERF/m10-70MB.xml";
     private static final String BIG_FILE2 = "PERF/m100-657MB.xml";
-    private static final String CURRENT_FILE_TEST = BIG_FILE;
+    private static final String CURRENT_FILE_TEST = BASIC_FILE;
 
 
     private final JakartaSCLJaxbImpl jakartaSCLJaxb = new JakartaSCLJaxbImpl();

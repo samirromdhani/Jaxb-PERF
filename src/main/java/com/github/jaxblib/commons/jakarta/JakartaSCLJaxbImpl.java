@@ -1,7 +1,6 @@
 package com.github.jaxblib.commons.jakarta;
 
 import com.github.jaxblib.commons.JAXBUtil;
-import com.github.jaxblib.xsd.jakarta.model.SCL;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
@@ -19,6 +18,7 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import java.io.*;
 
+import com.github.jaxblib.xsd.jakarta.model.SCL;
 // import org.lfenergy.compas.scl2007b4.model.SCL;
 
 public class JakartaSCLJaxbImpl implements JAXBUtil<SCL> {
