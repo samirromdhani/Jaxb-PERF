@@ -4,8 +4,11 @@ on:
   push:
     branches:
       - 'main'
+      - 'develop'
       - '!test'
       - '!testing/**'
+      - '!feature/**'
+      - '!fix/**'
 
 jobs:
   build:

@@ -22,10 +22,11 @@ import java.util.List;
 @RequestMapping("/jaxb")
 public class JAXBUnmarshalTest {
 
+    private static final String SAMPLE_FILE = "PERF/basic-7MB.xml";
     private static final String BIG_FILE_BASIC = "PERF/basic-7MB.xml";
     private static final String BIG_FILE_M_10 = "PERF/m10-70MB.xml";
     private static final String BIG_FILE_M_50 = "PERF/m50-328MB.xml";
-    private static final String CURRENT_FILE_TEST = BIG_FILE_BASIC;
+    private static final String CURRENT_FILE_TEST = SAMPLE_FILE;
 
     @Autowired
     private MarshallerJaxb2Wrapper marshallerJaxb2Wrapper;

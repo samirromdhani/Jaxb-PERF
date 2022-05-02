@@ -27,6 +27,7 @@ import java.util.List;
 @Log
 public class JAXBTestConsumeXML {
 
+    /*
     private static final String BIG_FILE_BASIC = "PERF/basic-7MB.xml";
     private static final String BIG_FILE_M_2 = "PERF/m2-13.5MB.xml";
     private static final String BIG_FILE_M_4 = "PERF/m4-26.6MB.xml";
@@ -110,5 +111,6 @@ public class JAXBTestConsumeXML {
         scd.getIED().forEach(tied -> list.add(tied.getName()));
         return list;
     }
+     */
 
 }

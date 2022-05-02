@@ -1,7 +1,7 @@
 spring:
 
 server:
-  port: 8088
+  port: 8888
 #  connection-timeout: -1
 #  tomcat:
 #    connectionUploadTimeout: 1800000

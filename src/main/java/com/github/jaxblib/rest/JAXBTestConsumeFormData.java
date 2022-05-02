@@ -32,6 +32,7 @@ import java.util.List;
 @Log
 public class JAXBTestConsumeFormData {
 
+    /*
     private static final String BIG_FILE_BASIC = "PERF/basic-7MB.xml";
     private static final String BIG_FILE_M_2 = "PERF/m2-13.5MB.xml";
     private static final String BIG_FILE_M_4 = "PERF/m4-26.6MB.xml";
@@ -112,14 +113,13 @@ public class JAXBTestConsumeFormData {
         return ResponseEntity.ok().body(list);
     }
 
-    /**
-     * use com.github.jaxblib.xsd.jakarta.model.SCL;
-     */
+
     @PutMapping(value = "/v4/ieds",
             consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}
     )
     public List<String> testv4(@RequestPart(value = "file") MultipartFile file,
                                @RequestPart(value = "data") IedDTO iedDTO) throws ScdException, IOException {
+        // use com.github.jaxblib.xsd.jakarta.model.SCL;
         InputStream xmlStream = getClass().getResourceAsStream("/" + CURRENT_FILE_TEST);
         com.github.jaxblib.xsd.jakarta.model.SCL scd = jakartaSCLJaxb.unmarshal(xmlStream);
         com.github.jaxblib.xsd.jakarta.model.SCL icd = jakartaSCLJaxb.unmarshal(xmlStream);
@@ -129,5 +129,5 @@ public class JAXBTestConsumeFormData {
         scd.getIED().forEach(tied -> list.add(tied.getName()));
         return list;
     }
-
+    */
 }

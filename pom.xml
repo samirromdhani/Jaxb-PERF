@@ -30,6 +30,7 @@
 			<id>samirromdhani</id>
 			<name>Samir Romdhani</name>
 			<roles>
+				<role>Developer</role>
 				<role>Committer</role>
 			</roles>
 		</developer>
@@ -168,7 +169,6 @@
 			<scope>provided</scope>
 		</dependency>
 		<!-- Performance Testing -->
-		<!-- https://rieckpil.de/write-gatling-performance-tests-with-java/ -->
 		<dependency>
 			<groupId>io.gatling.highcharts</groupId>
 			<artifactId>gatling-charts-highcharts</artifactId>
@@ -236,14 +236,12 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>com.lazerycode.jmeter</groupId>
-				<artifactId>jmeter-maven-plugin</artifactId>
-				<version>2.1.0</version>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>jmeter-tests</id>
 						<goals>
-							<goal>jmeter</goal>
+							<goal>repackage</goal>
 						</goals>
 					</execution>
 				</executions>

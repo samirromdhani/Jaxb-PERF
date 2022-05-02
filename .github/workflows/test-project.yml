@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - 'testing/**'
+      - '!feature/**'
+      - 'main'
 
 jobs:
   testings_job:
