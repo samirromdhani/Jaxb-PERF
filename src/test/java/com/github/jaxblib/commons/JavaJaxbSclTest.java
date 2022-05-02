@@ -1,4 +1,4 @@
-package com.github.jaxblib;
+package com.github.jaxblib.commons;
 
 import com.github.jaxblib.commons.jaxb.JavaSCLJaxbImpl;
 import org.junit.jupiter.api.Disabled;
@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class JavaJaxbSclTest {
 
     private static final String BIG_FILE = "PERF/m10-70MB.xml";
+    private static final String BIG_FILE2 = "PERF/m100-657MB.xml";
 
     private final JavaSCLJaxbImpl  javaSCLJaxb = new JavaSCLJaxbImpl();
 

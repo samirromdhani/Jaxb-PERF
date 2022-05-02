@@ -1,4 +1,4 @@
-package com.github.jaxblib;
+package com.github.jaxblib.commons;
 
 import com.github.jaxblib.commons.jakarta.JakartaSCLJaxbImpl;
 import com.github.jaxblib.xsd.jakarta.model.SCL;

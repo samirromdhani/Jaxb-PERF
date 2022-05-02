@@ -1,4 +1,4 @@
-package com.github.jaxblib;
+package com.github.jaxblib.commons;
 
 import com.github.jaxblib.commons.data.Toto;
 import com.github.jaxblib.commons.jakarta.JakartaTotoJaxbImpl;

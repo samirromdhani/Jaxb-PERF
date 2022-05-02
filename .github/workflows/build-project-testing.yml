@@ -1,27 +1,36 @@
-name: Jaxb-PERF CI
+name: Jaxb-PERF CI Testing
 
 on:
   push:
     branches:
-      - 'main'
-      - '!test'
-      - '!testing/**'
+      - 'testing/**'
 
 jobs:
-  build:
+  testings_job:
     runs-on: ubuntu-latest
+    name: A job to show test report
     steps:
       - name: Checkout
+        id: clone
         uses: actions/checkout@v3
       - name: Set up JDK 1.11
+        id: jdk
         uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: 'adopt'
       - name: Create custom Maven Settings.xml
+        id: mvnsetting
         uses: whelk-io/maven-settings-xml-action@v18
         with:
           output_file: custom_maven_settings.xml
           servers: '[{ "id": "github-packages-compas", "username": "samirromdhani", "password": "${{ secrets.GITHUB_TOKEN }}" }]'
-      - name: Build with Maven
-        run: mvn -s custom_maven_settings.xml clean install -DskipTests=true
+      - name: Testing perf action init log
+        id: perfinit
+        run: echo "" > src/test/logs/debug.log
+      - name: Test with Maven
+        id: test
+        run: mvn -s custom_maven_settings.xml clean test
+      - name: A step to show test report
+        id: perfshow
+        run: cat src/test/logs/debug.log

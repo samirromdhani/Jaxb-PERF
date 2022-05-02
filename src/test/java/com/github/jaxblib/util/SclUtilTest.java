@@ -29,9 +29,6 @@ class SclUtilTest {
         String data = new String(
                 Files.readAllBytes(resource.toPath()),
                 StandardCharsets.UTF_8);
-        /*
-        assertEquals("...",data);
-         */
     }
 
     @Test
@@ -55,10 +52,10 @@ class SclUtilTest {
      */
     public static void main(String args[]) throws ScdException, IOException {
         SclUtils sclUtils = new SclUtils();
-        byte[] data = sclUtils.getData(50);
+        byte[] data = sclUtils.getData(100);
         JavaJAXBUtilGeneric goodJAXBUtilGeneric = new JavaJAXBUtilGeneric();
         SCL scd = goodJAXBUtilGeneric.unmarshal(SCL.class, data);
-        assertEquals(50, scd.getIED().size());
-        Files.write(Paths.get("m50.xml"), data);
+        assertEquals(100, scd.getIED().size());
+        Files.write(Paths.get("m100-657MB.xml"), data);
     }
 }
