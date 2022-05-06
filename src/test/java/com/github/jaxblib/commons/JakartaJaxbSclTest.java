@@ -12,6 +12,7 @@ import java.io.InputStream;
 import static org.junit.jupiter.api.Assertions.*;
 
 
+@Disabled
 public class JakartaJaxbSclTest {
 
     private static final String BIG_FILE = "PERF/m10-70MB.xml";

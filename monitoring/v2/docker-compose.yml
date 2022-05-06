@@ -1,0 +1,47 @@
+version: '3.7'
+
+volumes:
+  prometheusdata: {}
+  grafanadata: {}
+services:
+  prometheus:
+    image: prom/prometheus
+    container_name : prometheus
+    user: root
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheusdata:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+    ports:
+      - 9090:9090
+    links:
+      - app:app
+    depends_on:
+      - app
+    restart: always
+
+  grafana:
+    image: grafana/grafana:6.0.0
+    container_name : grafana
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      - grafanadata:/var/lib/grafana
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/alerting1.yaml:/etc/grafana/provisioning/notifiers/alerting1.yaml
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini
+    env_file:
+      - ./grafana/config.monitoring
+    depends_on:
+      - prometheus
+  app:
+    image: spring-boot:app
+    container_name : app
+    ports:
+      - 8082:8080
+    

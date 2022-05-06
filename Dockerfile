@@ -1,7 +1,9 @@
 # Dockerfile
-FROM adoptopenjdk/openjdk11:alpine-jre
+FROM openjdk:11-jre-slim
+# openjdk:11-jdk
+# adoptopenjdk/openjdk11:alpine-jre
 ARG JAR_FILE=target/*.jar
 WORKDIR /opt/app
 COPY ${JAR_FILE} app.jar
 EXPOSE 8888
-ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT ["java","-jar", "-Xms600m", "-Xmx2g", "-Xss250m", "app.jar"]

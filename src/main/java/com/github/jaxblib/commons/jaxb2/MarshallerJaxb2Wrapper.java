@@ -1,6 +1,7 @@
 package com.github.jaxblib.commons.jaxb2;
 
 
+import org.apache.commons.io.input.BOMInputStream;
 import org.lfenergy.compas.scl2007b4.model.SCL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
@@ -9,9 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.xml.transform.Result;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.StringWriter;
+import java.io.*;
 
 @Component
 public class MarshallerJaxb2Wrapper {
@@ -27,11 +26,12 @@ public class MarshallerJaxb2Wrapper {
         return sw.toString();
     }
 
-    public SCL unmarshall(final InputStream xml){
-        return (SCL) marshaller.unmarshal(new StreamSource(xml));
+    public SCL unmarshall(final InputStream xml) throws UnsupportedEncodingException {
+        Reader reader = new InputStreamReader(new BOMInputStream(xml), "UTF-8");
+        return (SCL)marshaller.unmarshal(new StreamSource(reader));
     }
 
-    public SCL unmarshall(final byte[] xml) {
+    public SCL unmarshall(final byte[] xml) throws UnsupportedEncodingException {
         ByteArrayInputStream input = new ByteArrayInputStream( xml);
         return unmarshall(input);
     }

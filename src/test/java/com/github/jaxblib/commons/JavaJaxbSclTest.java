@@ -8,11 +8,13 @@ import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 import java.io.InputStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
+@Disabled
 public class JavaJaxbSclTest {
 
     private static final String BIG_FILE = "PERF/m10-70MB.xml";
@@ -38,7 +40,7 @@ public class JavaJaxbSclTest {
     }
 
     @Test
-    public void testJavaSCLJaxbImplSax() throws JAXBException, ParserConfigurationException, SAXException {
+    public void testJavaSCLJaxbImplSax() throws JAXBException, ParserConfigurationException, SAXException, IOException {
         InputStream xmlStream = getClass().getResourceAsStream("/" + BIG_FILE);
         SCL scl = javaSCLJaxb.unmarshalWithSAX(xmlStream);
         assertNotNull(scl);

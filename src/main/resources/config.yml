@@ -1,0 +1,4 @@
+xsd:
+  scl: "classpath:/xsd/SCL2007B4/SCL.xsd"
+xsd2:
+  scl: "classpath:/xsd/SCL2007B4/SCL.xsd"

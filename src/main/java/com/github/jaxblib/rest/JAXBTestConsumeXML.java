@@ -18,6 +18,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,6 @@ import java.util.List;
 @Log
 public class JAXBTestConsumeXML {
 
-    /*
     private static final String BIG_FILE_BASIC = "PERF/basic-7MB.xml";
     private static final String BIG_FILE_M_2 = "PERF/m2-13.5MB.xml";
     private static final String BIG_FILE_M_4 = "PERF/m4-26.6MB.xml";
@@ -42,10 +42,10 @@ public class JAXBTestConsumeXML {
     @Autowired
     private JakartaSCLJaxbImpl jakartaSCLJaxb;
 
-    @PutMapping(value = "/v0/ieds",
+    @PutMapping(value = "/v000/ieds",
             consumes = {MediaType.APPLICATION_XML_VALUE}
     )
-    public ResponseEntity<?> testv00(@RequestBody SCL icd) throws ScdException {
+    public ResponseEntity<?> testv00(@RequestBody SCL icd) throws ScdException, UnsupportedEncodingException {
         InputStream xmlStream = getClass().getResourceAsStream("/" + CURRENT_FILE_TEST);
         SCL scd = marshallerJaxb2Wrapper.unmarshall(xmlStream);
         //SCL icd = marshallerJaxb2Wrapper.unmarshall(file.getBytes());
@@ -56,10 +56,23 @@ public class JAXBTestConsumeXML {
         return ResponseEntity.ok().body(list);
     }
 
-    @PutMapping(value = "/v1/ieds",
+    @PutMapping(value = "/v001/ieds",
             consumes = {MediaType.APPLICATION_XML_VALUE}
     )
-    public ResponseEntity<?> testv01(@RequestBody SCL scl) throws ScdException, JAXBException, ParserConfigurationException, SAXException, javax.xml.bind.JAXBException {
+    public ResponseEntity<?> testv01(@RequestBody SCL scl) throws ScdException, IOException {
+        InputStream xmlStream = getClass().getResourceAsStream("/" + CURRENT_FILE_TEST);
+        SCL scd = javaSCLService.unmarshal(xmlStream);
+        SclService.addIED(scd, "iedName", scl);
+        List<String> list = new ArrayList<>();
+        byte[] rawXml = javaSCLService.marshal(scd);
+        scd.getIED().forEach(tied -> list.add(tied.getName()));
+        return ResponseEntity.ok().body(list);
+    }
+
+    @PutMapping(value = "/v002/ieds",
+            consumes = {MediaType.APPLICATION_XML_VALUE}
+    )
+    public ResponseEntity<?> testv02(@RequestBody SCL scl) throws ScdException, JAXBException, ParserConfigurationException, SAXException, javax.xml.bind.JAXBException, IOException {
         InputStream xmlStream = getClass().getResourceAsStream("/" + CURRENT_FILE_TEST);
         SCL scd = javaSCLService.unmarshalWithSAX(xmlStream);
         SclService.addIED(scd, "iedName", scl);
@@ -69,19 +82,7 @@ public class JAXBTestConsumeXML {
         return ResponseEntity.ok().body(list);
     }
 
-    @PutMapping(value = "/v2/ieds",
-            consumes = {MediaType.APPLICATION_XML_VALUE}
-    )
-    public ResponseEntity<?> testv02(@RequestBody SCL scl) throws ScdException, IOException {
-        InputStream xmlStream = getClass().getResourceAsStream("/" + CURRENT_FILE_TEST);
-        SCL scd = javaSCLService.unmarshal(xmlStream);
-        SclService.addIED(scd, "iedName", scl);
-        List<String> list = new ArrayList<>();
-        byte[] rawXml = javaSCLService.marshal(scd);
-        scd.getIED().forEach(tied -> list.add(tied.getName()));
-        return ResponseEntity.ok().body(list);
-    }
-    @PutMapping(value = "/v3/ieds",
+    @PutMapping(value = "/v003/ieds",
             consumes = {MediaType.APPLICATION_XML_VALUE}
     )
     public ResponseEntity<?> testv03(@RequestBody SCL scl) throws ScdException {
@@ -97,8 +98,10 @@ public class JAXBTestConsumeXML {
         return ResponseEntity.ok().body(list);
     }
 
-
-    @PutMapping(value = "/v4/ieds",
+    /**
+     * use com.github.jaxblib.xsd.jakarta.model.SCL;
+     */
+    @PutMapping(value = "/v004/ieds",
             consumes = {MediaType.APPLICATION_XML_VALUE}
     )
     public List<String> testv04(@RequestBody SCL icd) throws ScdException, IOException {
@@ -111,6 +114,6 @@ public class JAXBTestConsumeXML {
         scd.getIED().forEach(tied -> list.add(tied.getName()));
         return list;
     }
-     */
+
 
 }

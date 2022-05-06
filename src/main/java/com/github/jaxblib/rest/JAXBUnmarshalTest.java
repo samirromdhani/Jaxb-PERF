@@ -4,8 +4,10 @@ import com.github.jaxblib.commons.compas.MarshallerWrapper;
 import com.github.jaxblib.commons.jakarta.JakartaSCLJaxbImpl;
 import com.github.jaxblib.commons.jaxb.JavaSCLJaxbImpl;
 import com.github.jaxblib.commons.jaxb2.MarshallerJaxb2Wrapper;
+import com.github.jaxblib.commons.xsd.XSDFileProperties;
 import org.lfenergy.compas.scl2007b4.model.SCL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +17,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,12 +29,15 @@ public class JAXBUnmarshalTest {
     private static final String BIG_FILE_BASIC = "PERF/basic-7MB.xml";
     private static final String BIG_FILE_M_10 = "PERF/m10-70MB.xml";
     private static final String BIG_FILE_M_50 = "PERF/m50-328MB.xml";
-    private static final String CURRENT_FILE_TEST = SAMPLE_FILE;
+    private static final String CURRENT_FILE_TEST = BIG_FILE_M_10;
+
 
     @Autowired
     private MarshallerJaxb2Wrapper marshallerJaxb2Wrapper;
+
     @Autowired
     private JavaSCLJaxbImpl javaSCLJaxb;
+
     @Autowired
     private JakartaSCLJaxbImpl jakartaSCLJaxb;
 
@@ -39,7 +45,7 @@ public class JAXBUnmarshalTest {
      * Jaxb2 Spring
      */
     @GetMapping("/v0/ieds")
-    public List<String> testv0() {
+    public List<String> testv0() throws UnsupportedEncodingException {
         InputStream xmlStream = getClass().getResourceAsStream("/" + CURRENT_FILE_TEST);
         SCL scl = marshallerJaxb2Wrapper.unmarshall(xmlStream);
         List<String> list = new ArrayList<>();
@@ -63,7 +69,7 @@ public class JAXBUnmarshalTest {
      * jaxb 2.3.1 (Javax)
      */
     @GetMapping("/v2/ieds")
-    public List<String> testv2() throws JAXBException, ParserConfigurationException, SAXException {
+    public List<String> testv2() throws JAXBException, ParserConfigurationException, SAXException, IOException {
         InputStream xmlStream = getClass().getResourceAsStream("/" + CURRENT_FILE_TEST);
         SCL scl = javaSCLJaxb.unmarshalWithSAX(xmlStream);
         List<String> list = new ArrayList<>();

@@ -1,7 +1,9 @@
 package com.github.jaxblib.commons.jaxb;
 
 import com.github.jaxblib.commons.JAXBUtil;
+import com.github.jaxblib.conf.ConfigProperties;
 import org.lfenergy.compas.scl2007b4.model.SCL;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -21,7 +23,11 @@ import java.io.*;
 
 public class JavaSCLJaxbImpl implements JAXBUtil<SCL> {
 
-    String xsdFile = "target/classes/SCL2007B4/SCL.xsd";
+    boolean withValidation = true;
+
+    @Autowired
+    private ConfigProperties configProperties;
+
     private static JAXBContext context;
     static{
         try {
@@ -51,11 +57,13 @@ public class JavaSCLJaxbImpl implements JAXBUtil<SCL> {
         try {
             Unmarshaller unmarshaller = context.createUnmarshaller();
             //Setup schema validator
-            SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            Schema schema = sf.newSchema(new File(xsdFile));
-            unmarshaller.setSchema(schema);
+            if(withValidation) {
+                SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+                Schema schema = sf.newSchema(new File(configProperties.getResource().getFile().toURI()));
+                unmarshaller.setSchema(schema);
+            }
             return (SCL) unmarshaller.unmarshal(new File(xml));
-        } catch (JAXBException | SAXException e) {
+        } catch (JAXBException | SAXException | IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -65,9 +73,11 @@ public class JavaSCLJaxbImpl implements JAXBUtil<SCL> {
         try {
             Unmarshaller unmarshaller = context.createUnmarshaller();
             //Setup schema validator
-            SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            Schema schema = sf.newSchema(new File(xsdFile));
-            unmarshaller.setSchema(schema);
+            if(withValidation) {
+                SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+                Schema schema = sf.newSchema(new File(configProperties.getResource().getFile().toURI()));
+                unmarshaller.setSchema(schema);
+            }
             return (SCL) unmarshaller.unmarshal(inputStream);
         } catch (JAXBException | SAXException e) {
             throw new RuntimeException(e);
@@ -85,7 +95,7 @@ public class JavaSCLJaxbImpl implements JAXBUtil<SCL> {
     }
 
     @Override
-    public SCL unmarshalWithSAX(InputSource inputSource) throws ParserConfigurationException, SAXException, JAXBException {
+    public SCL unmarshalWithSAX(InputSource inputSource) throws ParserConfigurationException, SAXException, JAXBException, IOException {
         SAXParserFactory spf = SAXParserFactory.newInstance();
         spf.setNamespaceAware(true);
         spf.setValidating(true);
@@ -97,16 +107,16 @@ public class JavaSCLJaxbImpl implements JAXBUtil<SCL> {
         SAXSource source = new SAXSource( xmlReader, inputSource);
 
         Unmarshaller unmarshaller = context.createUnmarshaller();
-        //Setup schema validator
-        SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        Schema schema = sf.newSchema(new File(xsdFile));
-        unmarshaller.setSchema(schema);
-
+        if(withValidation) {
+            SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            Schema schema = sf.newSchema(new File(configProperties.getResource().getFile().toURI()));
+            unmarshaller.setSchema(schema);
+        }
         return (SCL)unmarshaller.unmarshal( source );
     }
 
     @Override
-    public SCL unmarshalWithSAX(InputStream inputStream) throws JAXBException, ParserConfigurationException, SAXException {
+    public SCL unmarshalWithSAX(InputStream inputStream) throws JAXBException, ParserConfigurationException, SAXException, IOException {
         InputSource inputSource = new InputSource(inputStream);
         return unmarshalWithSAX(inputSource);
     }

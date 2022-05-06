@@ -1,0 +1,36 @@
+version: '3.7'
+
+volumes:
+  prometheus_data: {}
+  grafana_data: {}
+
+services:
+
+  prometheus:
+    image: prom/prometheus:v2.35.0
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+    ports:
+      - 9090:9090
+    restart: unless-stopped
+  grafana:
+    image: grafana/grafana:6.0.0
+    depends_on:
+      - prometheus
+    ports:
+      - 3000:3000
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/alerting1.yaml:/etc/grafana/provisioning/notifiers/alerting1.yaml
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini
+      - ./grafana/data/plugins:/var/lib/grafana/plugins
+    env_file:
+      - ./grafana/config.monitoring
+    restart: always

@@ -3,6 +3,7 @@ package com.github.jaxblib.commons;
 import com.github.jaxblib.commons.jakarta.JakartaSCLJaxbImpl;
 import com.github.jaxblib.commons.jaxb.JavaSCLJaxbImpl;
 import org.apache.commons.io.FileUtils;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -11,6 +12,7 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+@Disabled
 public class AppUnitTest
 {
     private final long mb = 1024*1024;

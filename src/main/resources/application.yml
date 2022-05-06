@@ -1,5 +1,10 @@
 spring:
-
+  servlet:
+    multipart:
+      max-file-size: 300MB
+      max-request-size: 300MB
+environment: testing
+enabled: true
 server:
   port: 8888
 #  connection-timeout: -1
@@ -9,10 +14,33 @@ server:
 #    connection-timeout: 1800000
 #    max-swallow-size: 100000000
 #    max-http-form-post-size: 100000000
-  level:
-    root: INFO
+#logging:
+#  level:
+#    root: INFO
 compas:
   scl:
     schema:
       paths:
         scl: "classpath:xsd/SCL2007B4/SCL.xsd"
+
+#Metrics related configurations
+management:
+  server:
+    port: 9091
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      #base-path: "/"
+  endpoint:
+    metrics:
+      enabled: true
+      prometheus:
+        enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+host: spring-boot-metrics-dev
+service: spring-boot-metrics
+region: Europe/Paris

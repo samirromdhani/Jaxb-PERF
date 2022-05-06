@@ -1,0 +1,11 @@
+notifiers:
+  - name: notification-channel-1
+    type: email
+    org_id: 1
+    org_name: Github
+    uid: notifier1
+    is_default: true
+    # See `Supported Settings` section for settings supporter for each
+    # alert notification type.
+    settings:
+      addresses: samir.romdhani1994@gmail.com

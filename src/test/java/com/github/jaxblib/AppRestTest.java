@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 
 @ExtendWith(SpringExtension.class)
@@ -40,7 +41,7 @@ public class AppRestTest
 
     @Test
     @Tag("spring")
-    public void testJaxbSpring() {
+    public void testJaxbSpring() throws UnsupportedEncodingException {
         log.debug("###########################      Jaxb2 Spring    ###########################");
         long premem = Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory();
         long start1 = System.currentTimeMillis();
