@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * @author samirromdhani
+ */
 public class XsdUtil<T> {
     private static final Map<Class, String> SCHEMA_MAP = new ConcurrentHashMap<>();
     

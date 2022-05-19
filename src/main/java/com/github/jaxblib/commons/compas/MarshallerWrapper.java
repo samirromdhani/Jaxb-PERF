@@ -18,6 +18,9 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.StringWriter;
 
+/**
+ * @author samirromdhani
+ */
 @Slf4j
 public class MarshallerWrapper {
     private final Unmarshaller unmarshaller;

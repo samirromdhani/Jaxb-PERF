@@ -6,7 +6,6 @@
 * [Notes](#notes)
 * [Links](#links)
 * [Performance Test Report](#performance-test-report)
-* [Performance Test Related request type](#performance-test-related-request-type-FormData)
 
 ## General info
 **Evaluating jaxb performance (jaxb2) by comparing it with others technologies**
@@ -19,6 +18,9 @@
 * JAXB: (jaxb-impl 2.3.6) 
 #### Spring (current)
 * JAXB2: OXM (Object XML Mapping) 
+#### TODO
+* Jackson
+* Jaxb-V2
 #### Others
 * JAXB-STREAM 
 * JIBX 
@@ -58,8 +60,15 @@ public interface JAXBUtil<T extends Object> {
 -->
 
 ## Links
-JAXB on Java 9, 10, 11 and beyond :
+##### JAXB on Java 9, 10, 11 and beyond :
 https://jesperdj.com/2018/09/30/jaxb-on-java-9-10-11-and-beyond/
+##### JAXB V2 : Partial Unmarshalling
+https://github.com/javaee/jaxb-v2/tree/master/jaxb-ri/samples/src/main/samples/partial-unmarshalling
+
+##### Others
+https://stackoverflow.com/questions/65805250/hows-the-performance-of-jackson-compared-to-jaxb-in-creating-xml
+
+https://github.com/beanit/iec61850bean/blob/master/src/main/java/com/beanit/iec61850bean/SclParser.java
 
 ## Performance Test Report
 
@@ -108,17 +117,6 @@ _jaxb/v3_ | *JAXB CoMPAS sct*           | 1810 ms    | 18.8 s     | 1m 48s
 _jaxb/v4_ | *JAXB Jakarta*  | 1727 ms   | 19.4 s     | 1m 41s
 _jaxb/v5_ | *JAXB Jakarta with SAX*     | 1917 ms    | 19.2 s     | 1m 47s 
 
-### #3
-_API Version_ | Type                    | File size  | File size  | File size
----           | ---                     |    ---     | ---        | ---
----           | ---                     |  7 MB      | 70 MB      | 328 MB
-_jaxb/v0_ | *JAXB2*                     | 2105 ms    | 18.4 s     | 1m 41s
-_jaxb/v1_ | *JAXB*                      | 1855 ms    | 17.3 s     | 1m 44s
-_jaxb/v2_ | *JAXB with SAX*             | 1898 ms    | 21.1 s     | 1m 46s
-_jaxb/v3_ | *JAXB CoMPAS sct*           | 1826 ms    | 19.3 s     | 1m 43s
-_jaxb/v4_ | *JAXB Jakarta*              | 1703 ms    | 18.2 s     | 1m 45s
-_jaxb/v5_ | *JAXB Jakarta with SAX*     | 1918 ms    | 20.5 s     | 1m 49s
-
 
 ### Test marshalling TODO
 * convert Java objects (SCL) to string or bytes
@@ -136,44 +134,5 @@ _jaxb/v3_ | *JAXB CoMPAS sct*           |   ----     |   ----     |   ----
 _jaxb/v4_ | *JAXB Jakarta*              |   ----     |   ----     |   ----
 _jaxb/v5_ | *JAXB Jakarta with SAX*     |   ----     |   ----     |   ----
 
-## Performance Test Related request type FormData
-**Client:** `Firefox` `Edge`
+###### For memory usage, take a look at tests, github action report or gatling report
 
-Scenario : add file `~6MB` in file `[7MB, 13,5MB, 26.6MB, 52.8MB, 70MB]`
-
-1. unmarshall `[7MB, 13,5MB, 26.6MB, 52.8MB, 70MB]`
-2. unmarshall `~6MB`
-3. marshall result
-
-In case of file > 50 MB we have this kind of exceptions **MultipartException** and **FileSizeLimitExceededException**
-```bash
-MultipartException
-
-[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.springframework.web.multipart.MultipartException: Failed to parse multipart servlet request; nested exception is java.io.IOException: org.apache.tomcat.util.http.fileupload.impl.IOFileUploadException: Processing of multipart/form-data request failed. java.io.EOFException] with root cause
-java.io.EOFException: null
-```
-
-```bash
-FileSizeLimitExceededException
-
-[dispatcherServlet].log - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded; nested exception is java.lang.IllegalStateException: org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException: The field file exceeds its maximum permitted size of 1048576 bytes.] with root cause
- The field file exceeds its maximum permitted size of 1048576 bytes.
-```
-Try this solution (the default is 10MB)
-
-```bash
-servlet:
-    multipart:
-        max-file-size: 300MB
-        max-request-size: 300MB
-```
-or
-```bash
-	@Bean
-	public MultipartConfigElement multipartConfigElement() {
-		MultipartConfigFactory factory = new MultipartConfigFactory();
-		factory.setMaxFileSize(DataSize.ofMegabytes(300));
-		factory.setMaxRequestSize(DataSize.ofMegabytes(300));
-		return factory.createMultipartConfig();
-	}
-```

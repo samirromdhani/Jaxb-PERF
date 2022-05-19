@@ -14,6 +14,9 @@ import java.nio.file.Files;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * @author samirromdhani
+ */
 public class SclUtils {
 
     public byte[] getData(Integer numberofIED) throws ScdException, IOException {

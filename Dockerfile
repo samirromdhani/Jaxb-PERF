@@ -1,7 +1,4 @@
-# Dockerfile
 FROM openjdk:11-jre-slim
-# openjdk:11-jdk
-# adoptopenjdk/openjdk11:alpine-jre
 ARG JAR_FILE=target/*.jar
 WORKDIR /opt/app
 COPY ${JAR_FILE} app.jar

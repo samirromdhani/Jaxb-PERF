@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 
 @ExtendWith(SpringExtension.class)
@@ -19,8 +18,7 @@ import java.io.UnsupportedEncodingException;
 @Tag("java")
 @Tag("compas")
 @Tag("jakarta")
-public class AppRestTest
-{
+public class AppRestTest {
     private final long mb = 1024*1024;
 
     private static Logger log = LoggerFactory.getLogger(AppRestTest.class);
@@ -41,14 +39,14 @@ public class AppRestTest
 
     @Test
     @Tag("spring")
-    public void testJaxbSpring() throws UnsupportedEncodingException {
+    public void testJaxbSpring() throws IOException {
         log.debug("###########################      Jaxb2 Spring    ###########################");
         long premem = Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory();
         long start1 = System.currentTimeMillis();
-        // log.debug("Used memory pre run (MB): "+(premem/mb));
+        log.debug("Used memory pre run (MB): "+(premem/mb));
         jaxbUnmarshalTest.testv0();
         long postmem = Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory();
-        // log.debug("Used memory post run (MB): "+(postmem/mb));
+        log.debug("Used memory post run (MB): "+(postmem/mb));
         log.debug("Memory consumed (MB): "+(postmem-premem)/mb);
         log.debug("Time taken in MS: "+(System.currentTimeMillis()-start1));
     }
@@ -59,10 +57,10 @@ public class AppRestTest
         log.debug("###########################  Java 2.3.1 (Javax)  ###########################");
         long premem = Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory();
         long start = System.currentTimeMillis();
-        // log.debug("Used memory pre run (MB): "+(premem/mb));
+        log.debug("Used memory pre run (MB): "+(premem/mb));
         jaxbUnmarshalTest.testv1().size();
         long postmem = Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory();
-        // log.debug("Used memory post run (MB): "+(postmem/mb));
+        log.debug("Used memory post run (MB): "+(postmem/mb));
         log.debug("Memory consumed (MB): "+(postmem-premem)/mb);
         log.debug("Time taken in MS: "+(System.currentTimeMillis()-start));
     }
@@ -73,10 +71,10 @@ public class AppRestTest
         log.debug("###########################  Java (Javax Compas SCT)  ###########################");
         long premem = Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory();
         long start = System.currentTimeMillis();
-        // log.debug("Used memory pre run (MB): "+(premem/mb));
+        log.debug("Used memory pre run (MB): "+(premem/mb));
         jaxbUnmarshalTest.testv3();
         long postmem = Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory();
-        // log.debug("Used memory post run (MB): "+(postmem/mb));
+        log.debug("Used memory post run (MB): "+(postmem/mb));
         log.debug("Memory consumed (MB): "+(postmem-premem)/mb);
         log.debug("Time taken in MS: "+(System.currentTimeMillis()-start));
     }
@@ -87,10 +85,10 @@ public class AppRestTest
         log.debug("###########################  Java 3.0.0 (jakarta)  ###########################");
         long premem = Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory();
         long start = System.currentTimeMillis();
-        // log.debug("Used memory pre run (MB): "+(premem/mb));
+        log.debug("Used memory pre run (MB): "+(premem/mb));
         jaxbUnmarshalTest.testv4();
         long postmem = Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory();
-        // log.debug("Used memory post run (MB): "+(postmem/mb));
+        log.debug("Used memory post run (MB): "+(postmem/mb));
         log.debug("Memory consumed (MB): "+(postmem-premem)/mb);
         log.debug("Time taken in MS: "+(System.currentTimeMillis()-start));
     }

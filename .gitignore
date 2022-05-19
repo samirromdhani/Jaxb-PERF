@@ -23,8 +23,8 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 
 # GitHub's file size limit of 100.00 MB
-# src/main/resources/PERF/*.xml
-# src/test/resources/PERF/*.xml
+src/main/resources/PERF/*.xml
+src/test/resources/PERF/*.xml
 
 # Eclipse m2e generated files
 # Eclipse Core

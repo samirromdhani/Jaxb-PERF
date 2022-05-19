@@ -32,13 +32,11 @@ public class JaxbRequestSimulation extends Simulation {
             .exec(http("jaxb-v0-request spring")
                     .get("/jaxb/v0/ieds")
                     .check(status().is(200))
-                    //.check(header("Location").saveAs("location"))
             )
             .exec(http("jaxb-v1-request javax")
-                            .get("/jaxb/v1/ieds")
+                            .get("/jaxb/v6/ieds")
                             .check(status().is(200))
-            );
-    /*
+            )
             .exec(http("jaxb-v3-request compas")
                             .get("/jaxb/v3/ieds")
                             .check(status().is(200))
@@ -47,7 +45,6 @@ public class JaxbRequestSimulation extends Simulation {
                             .get("/jaxb/v4/ieds")
                             .check(status().is(200))
             );
-    */
 
     public JaxbRequestSimulation() {
 

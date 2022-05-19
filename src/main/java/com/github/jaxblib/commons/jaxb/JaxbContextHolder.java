@@ -6,6 +6,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 
+/**
+ * @author samirromdhani
+ */
 public class JaxbContextHolder {
 
     private static final Map<String, JAXBContext> CONTEXT_MAP = new ConcurrentHashMap<>();

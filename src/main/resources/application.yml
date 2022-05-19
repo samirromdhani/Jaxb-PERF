@@ -1,3 +1,4 @@
+
 spring:
   servlet:
     multipart:
@@ -7,13 +8,6 @@ environment: testing
 enabled: true
 server:
   port: 8888
-#  connection-timeout: -1
-#  tomcat:
-#    connectionUploadTimeout: 1800000
-#    connectionTimeout: 1800000
-#    connection-timeout: 1800000
-#    max-swallow-size: 100000000
-#    max-http-form-post-size: 100000000
 #logging:
 #  level:
 #    root: INFO
@@ -41,6 +35,6 @@ management:
     export:
       prometheus:
         enabled: true
-host: spring-boot-metrics-dev
-service: spring-boot-metrics
+host: jaxb-perf-metrics-dev
+service: jaxb-perf
 region: Europe/Paris

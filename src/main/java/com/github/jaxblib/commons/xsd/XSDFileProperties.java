@@ -2,26 +2,43 @@ package com.github.jaxblib.commons.xsd;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.lfenergy.compas.sct.commons.CommonConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 
 import javax.annotation.PostConstruct;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+
+/**
+ * @author samirromdhani
+ */
 @Getter
 @Setter
 @NoArgsConstructor
+@Configuration
+@Primary
+@Qualifier("xsdFileProperties")
 @ConfigurationProperties("compas.scl.schema")
 public class XSDFileProperties {
 
+    @Autowired
+    private ResourceLoader resourceLoader ;
+
     private Map<String, String> paths;
+    List<Resource> resources = new ArrayList<>();
 
     @PostConstruct
     public void init() {
-        if (this.paths == null || this.paths.isEmpty()) {
-            paths = new HashMap<>();
-            paths.put(CommonConstants.XML_DEFAULT_NS_PREFIX, CommonConstants.XML_DEFAULT_XSD_PATH);
+        for (Map.Entry<String, String> path : paths.entrySet()) {
+            String filePath = path.getValue();
+            resources.add(resourceLoader.getResource(filePath));
         }
     }
 }
