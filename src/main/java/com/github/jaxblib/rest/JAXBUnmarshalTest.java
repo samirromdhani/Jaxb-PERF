@@ -1,13 +1,12 @@
 package com.github.jaxblib.rest;
 
 import com.github.jaxblib.commons.compas.MarshallerWrapper;
+import com.github.jaxblib.commons.jackson.JacksonSCLImpl;
 import com.github.jaxblib.commons.jakarta.JakartaSCLJaxbImpl;
 import com.github.jaxblib.commons.jaxb.JavaSCLJaxbImpl;
 import com.github.jaxblib.commons.jaxb2.MarshallerJaxb2Wrapper;
-import com.github.jaxblib.commons.xsd.XSDFileProperties;
 import org.lfenergy.compas.scl2007b4.model.SCL;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,16 +20,20 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author samirromdhani
+ */
 @RestController
 @RequestMapping("/jaxb")
 public class JAXBUnmarshalTest {
 
+    private static final String SAMPLE = "PERF/test.xml";
     private static final String SAMPLE_FILE = "PERF/basic-7MB.xml";
     private static final String BIG_FILE_BASIC = "PERF/basic-7MB.xml";
     private static final String BIG_FILE_M_10 = "PERF/m10-70MB.xml";
     private static final String BIG_FILE_M_50 = "PERF/m50-328MB.xml";
-    private static final String CURRENT_FILE_TEST = BIG_FILE_M_10;
-
+    private static final String TEST = "PERF/test-large.xml";
+    private static final String CURRENT_FILE_TEST = SAMPLE;
 
     @Autowired
     private MarshallerJaxb2Wrapper marshallerJaxb2Wrapper;
@@ -40,6 +43,9 @@ public class JAXBUnmarshalTest {
 
     @Autowired
     private JakartaSCLJaxbImpl jakartaSCLJaxb;
+
+    @Autowired
+    private JacksonSCLImpl jacksonSCL;
 
     /**
      * Jaxb2 Spring
@@ -114,6 +120,16 @@ public class JAXBUnmarshalTest {
     public List<String> testv5() throws jakarta.xml.bind.JAXBException, ParserConfigurationException, SAXException {
         InputStream xmlStream = getClass().getResourceAsStream("/" + CURRENT_FILE_TEST);
         com.github.jaxblib.xsd.jakarta.model.SCL scl = jakartaSCLJaxb.unmarshalWithSAX(xmlStream);
+        List<String> list = new ArrayList<>();
+        scl.getIED().forEach(tied -> list.add(tied.getName()));
+        return list;
+    }
+
+
+    @GetMapping("/v6/ieds")
+    public List<String> testv6() throws IOException {
+        InputStream xmlStream = getClass().getResourceAsStream("/" + CURRENT_FILE_TEST);
+        SCL scl = jacksonSCL.unmarshal(xmlStream);
         List<String> list = new ArrayList<>();
         scl.getIED().forEach(tied -> list.add(tied.getName()));
         return list;

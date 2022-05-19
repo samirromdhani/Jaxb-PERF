@@ -3,7 +3,8 @@ name: Jaxb-PERF CI Testing with gatling
 on:
   push:
     branches:
-      - 'feature/**'
+      - 'feature/gatling'
+      - '!feature/develop'
       - '!testing/**'
       - '!main'
 
@@ -41,7 +42,7 @@ jobs:
         run: docker ps && docker logs jaxblib
       - name: A step to init test report with gatling
         id: gatlinginit
-        run: mvn -s custom_maven_settings.xml clean gatling:test
+        run: mvn -s custom_maven_settings.xml mvn
       - name: logs after gatling test
         id: log2
         run: docker ps && docker logs jaxblib

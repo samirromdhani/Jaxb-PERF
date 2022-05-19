@@ -2,7 +2,6 @@ package com.github.jaxblib.commons.xsd;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.lfenergy.compas.sct.commons.CommonConstants;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import javax.annotation.PostConstruct;

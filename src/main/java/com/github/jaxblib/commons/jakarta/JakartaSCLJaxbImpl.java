@@ -19,8 +19,11 @@ import javax.xml.validation.SchemaFactory;
 import java.io.*;
 
 import com.github.jaxblib.xsd.jakarta.model.SCL;
-// import org.lfenergy.compas.scl2007b4.model.SCL;
+//import org.lfenergy.compas.scl2007b4.model.SCL;
 
+/**
+ * @author samirromdhani
+ */
 public class JakartaSCLJaxbImpl implements JAXBUtil<SCL> {
 
     String xsdFile = "target/classes/SCL2007B4/SCL.xsd";

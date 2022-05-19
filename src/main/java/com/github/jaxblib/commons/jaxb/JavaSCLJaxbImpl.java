@@ -1,9 +1,7 @@
 package com.github.jaxblib.commons.jaxb;
 
 import com.github.jaxblib.commons.JAXBUtil;
-import com.github.jaxblib.conf.ConfigProperties;
 import org.lfenergy.compas.scl2007b4.model.SCL;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -21,12 +19,10 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import java.io.*;
 
+/**
+ * @author samirromdhani
+ */
 public class JavaSCLJaxbImpl implements JAXBUtil<SCL> {
-
-    boolean withValidation = true;
-
-    @Autowired
-    private ConfigProperties configProperties;
 
     private static JAXBContext context;
     static{
@@ -56,14 +52,9 @@ public class JavaSCLJaxbImpl implements JAXBUtil<SCL> {
     public SCL unmarshal(String xml) {
         try {
             Unmarshaller unmarshaller = context.createUnmarshaller();
-            //Setup schema validator
-            if(withValidation) {
-                SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-                Schema schema = sf.newSchema(new File(configProperties.getResource().getFile().toURI()));
-                unmarshaller.setSchema(schema);
-            }
+            //TODO Setup schema validator
             return (SCL) unmarshaller.unmarshal(new File(xml));
-        } catch (JAXBException | SAXException | IOException e) {
+        } catch (JAXBException e) {
             throw new RuntimeException(e);
         }
     }
@@ -72,14 +63,9 @@ public class JavaSCLJaxbImpl implements JAXBUtil<SCL> {
     public SCL unmarshal(InputStream inputStream) throws IOException {
         try {
             Unmarshaller unmarshaller = context.createUnmarshaller();
-            //Setup schema validator
-            if(withValidation) {
-                SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-                Schema schema = sf.newSchema(new File(configProperties.getResource().getFile().toURI()));
-                unmarshaller.setSchema(schema);
-            }
+            //TODO Setup schema validator
             return (SCL) unmarshaller.unmarshal(inputStream);
-        } catch (JAXBException | SAXException e) {
+        } catch (JAXBException e) {
             throw new RuntimeException(e);
         }
     }
@@ -107,11 +93,7 @@ public class JavaSCLJaxbImpl implements JAXBUtil<SCL> {
         SAXSource source = new SAXSource( xmlReader, inputSource);
 
         Unmarshaller unmarshaller = context.createUnmarshaller();
-        if(withValidation) {
-            SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            Schema schema = sf.newSchema(new File(configProperties.getResource().getFile().toURI()));
-            unmarshaller.setSchema(schema);
-        }
+        //TODO Setup schema validator
         return (SCL)unmarshaller.unmarshal( source );
     }
 

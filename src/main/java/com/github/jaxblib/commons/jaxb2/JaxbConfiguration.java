@@ -2,6 +2,7 @@ package com.github.jaxblib.commons.jaxb2;
 
 import com.github.jaxblib.commons.xsd.XSDFileProperties;
 import org.lfenergy.compas.scl2007b4.model.SCL;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author samirromdhani
+ */
 @Configuration
 @EnableConfigurationProperties(XSDFileProperties.class)
 public class JaxbConfiguration {
@@ -43,6 +47,16 @@ public class JaxbConfiguration {
         }
         jaxb2Marshaller.afterPropertiesSet();
 
+        return jaxb2Marshaller;
+    }
+
+    @Bean
+    @Qualifier("customJaxb2Marshaller")
+    public Jaxb2Marshaller getCustomJaxb2Marshaller(ResourceLoader resourceLoader, XSDFileProperties xsdFileProperties) throws Exception {
+        Jaxb2Marshaller jaxb2Marshaller = new Jaxb2Marshaller();
+        jaxb2Marshaller.setMarshallerProperties(Collections.singletonMap(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE));
+        jaxb2Marshaller.setClassesToBeBound(SCL.class);
+        //jaxb2Marshaller.afterPropertiesSet();
         return jaxb2Marshaller;
     }
 }

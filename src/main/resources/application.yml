@@ -1,8 +1,12 @@
+
 spring:
   servlet:
     multipart:
       max-file-size: 300MB
       max-request-size: 300MB
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: false
 environment: testing
 enabled: true
 server:

@@ -16,6 +16,9 @@ import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.sax.SAXSource;
 import java.io.*;
 
+/**
+ * @author samirromdhani
+ */
 public class JavaTotoJaxbImpl implements JAXBUtil<Toto> {
 
     private static JAXBContext context;

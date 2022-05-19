@@ -1,6 +1,5 @@
 package com.github.jaxblib.commons.jaxb2;
 
-
 import org.apache.commons.io.input.BOMInputStream;
 import org.lfenergy.compas.scl2007b4.model.SCL;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,9 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
 
+/**
+ * @author samirromdhani
+ */
 @Component
 public class MarshallerJaxb2Wrapper {
 

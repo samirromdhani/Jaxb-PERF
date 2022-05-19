@@ -19,6 +19,9 @@
 * JAXB: (jaxb-impl 2.3.6) 
 #### Spring (current)
 * JAXB2: OXM (Object XML Mapping) 
+#### TODO
+* Jackson
+* Jaxb-V2
 #### Others
 * JAXB-STREAM 
 * JIBX 
@@ -58,8 +61,15 @@ public interface JAXBUtil<T extends Object> {
 -->
 
 ## Links
-JAXB on Java 9, 10, 11 and beyond :
+##### JAXB on Java 9, 10, 11 and beyond :
 https://jesperdj.com/2018/09/30/jaxb-on-java-9-10-11-and-beyond/
+##### JAXB V2 : Partial Unmarshalling
+https://github.com/javaee/jaxb-v2/tree/master/jaxb-ri/samples/src/main/samples/partial-unmarshalling
+
+##### Others
+https://stackoverflow.com/questions/65805250/hows-the-performance-of-jackson-compared-to-jaxb-in-creating-xml
+
+https://github.com/beanit/iec61850bean/blob/master/src/main/java/com/beanit/iec61850bean/SclParser.java
 
 ## Performance Test Report
 
@@ -136,6 +146,8 @@ _jaxb/v3_ | *JAXB CoMPAS sct*           |   ----     |   ----     |   ----
 _jaxb/v4_ | *JAXB Jakarta*              |   ----     |   ----     |   ----
 _jaxb/v5_ | *JAXB Jakarta with SAX*     |   ----     |   ----     |   ----
 
+
+<!--
 ## Performance Test Related request type FormData
 **Client:** `Firefox` `Edge`
 
@@ -177,3 +189,4 @@ or
 		return factory.createMultipartConfig();
 	}
 ```
+-->

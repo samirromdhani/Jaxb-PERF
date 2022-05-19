@@ -19,6 +19,7 @@ import java.io.UnsupportedEncodingException;
 @Tag("java")
 @Tag("compas")
 @Tag("jakarta")
+@Disabled
 public class AppRestTest
 {
     private final long mb = 1024*1024;

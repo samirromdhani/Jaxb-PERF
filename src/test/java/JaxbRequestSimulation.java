@@ -35,7 +35,7 @@ public class JaxbRequestSimulation extends Simulation {
                     //.check(header("Location").saveAs("location"))
             )
             .exec(http("jaxb-v1-request javax")
-                            .get("/jaxb/v1/ieds")
+                            .get("/jaxb/v6/ieds")
                             .check(status().is(200))
             );
     /*
