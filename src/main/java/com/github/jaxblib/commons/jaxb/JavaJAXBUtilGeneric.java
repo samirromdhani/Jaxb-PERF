@@ -15,6 +15,9 @@ import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.sax.SAXSource;
 import java.io.*;
 
+/**
+ * @author samirromdhani
+ */
 public class JavaJAXBUtilGeneric {
 
 

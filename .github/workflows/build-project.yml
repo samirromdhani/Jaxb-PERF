@@ -1,6 +1,14 @@
 name: Jaxb-PERF CI
 
-on: [push]
+on:
+  push:
+    branches:
+      - 'main'
+      - 'develop'
+      - '!test'
+      - '!testing/**'
+      - '!feature/**'
+      - '!fix/**'
 
 jobs:
   build:
@@ -19,4 +27,4 @@ jobs:
           output_file: custom_maven_settings.xml
           servers: '[{ "id": "github-packages-compas", "username": "samirromdhani", "password": "${{ secrets.GITHUB_TOKEN }}" }]'
       - name: Build with Maven
-        run: mvn -s custom_maven_settings.xml clean install
+        run: mvn -s custom_maven_settings.xml clean install -DskipTests=true

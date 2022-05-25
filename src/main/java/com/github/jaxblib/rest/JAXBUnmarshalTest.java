@@ -15,35 +15,52 @@ import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author samirromdhani
+ */
 @RestController
 @RequestMapping("/jaxb")
 public class JAXBUnmarshalTest {
 
+    private static final String SAMPLE = "PERF/test.xml";
+    private static final String SAMPLE_FILE = "PERF/basic-7MB.xml";
     private static final String BIG_FILE_BASIC = "PERF/basic-7MB.xml";
     private static final String BIG_FILE_M_10 = "PERF/m10-70MB.xml";
     private static final String BIG_FILE_M_50 = "PERF/m50-328MB.xml";
-    private static final String CURRENT_FILE_TEST = BIG_FILE_M_50;
+    private static final String BIG_FILE_XL = "PERF/test-large.xml";
+    private static final String CURRENT_FILE_TEST = BIG_FILE_XL;
 
     @Autowired
     private MarshallerJaxb2Wrapper marshallerJaxb2Wrapper;
+
     @Autowired
     private JavaSCLJaxbImpl javaSCLJaxb;
+
     @Autowired
     private JakartaSCLJaxbImpl jakartaSCLJaxb;
 
+    MarshallerWrapper marshallerWrapper = MarshallerWrapper.builder()
+            .withProperties("classpath:compas/scl_schema.yml")
+            .build();
+
+    /**
+     * Jaxb2 Spring
+     */
     @GetMapping("/v0/ieds")
-    public List<String> testv0() {
+    public List<String> testv0() throws IOException {
         InputStream xmlStream = getClass().getResourceAsStream("/" + CURRENT_FILE_TEST);
-        SCL scl = marshallerJaxb2Wrapper.unmarshall(xmlStream);
+        SCL scl = marshallerJaxb2Wrapper.unmarshal(xmlStream);
         List<String> list = new ArrayList<>();
         scl.getIED().forEach(tied -> list.add(tied.getName()));
         return list;
     }
 
+    /**
+     * jaxb 2.3.1 (Javax)
+     */
     @GetMapping("/v1/ieds")
     public List<String> testv1() throws IOException {
         InputStream xmlStream = getClass().getResourceAsStream("/" + CURRENT_FILE_TEST);
@@ -53,8 +70,11 @@ public class JAXBUnmarshalTest {
         return list;
     }
 
+    /**
+     * jaxb 2.3.1 (Javax)
+     */
     @GetMapping("/v2/ieds")
-    public List<String> testv2() throws JAXBException, ParserConfigurationException, SAXException {
+    public List<String> testv2() throws JAXBException, ParserConfigurationException, SAXException, IOException {
         InputStream xmlStream = getClass().getResourceAsStream("/" + CURRENT_FILE_TEST);
         SCL scl = javaSCLJaxb.unmarshalWithSAX(xmlStream);
         List<String> list = new ArrayList<>();
@@ -63,12 +83,11 @@ public class JAXBUnmarshalTest {
     }
 
 
+    /**
+     * jaxb 2.3.1 (Javax) with compas-sct wrapper
+     */
     @GetMapping("/v3/ieds")
     public List<String> testv3() {
-        MarshallerWrapper marshallerWrapper = MarshallerWrapper.builder()
-                .withProperties("classpath:scl_schema.yml")
-                .build();
-
         InputStream xmlStream = getClass().getResourceAsStream("/" + CURRENT_FILE_TEST);
         SCL scl = marshallerWrapper.unmarshall(xmlStream, SCL.class);
         List<String> list = new ArrayList<>();
@@ -77,10 +96,11 @@ public class JAXBUnmarshalTest {
     }
 
     /**
+     * jaxb 3.0.0 (jakarta)
      * use com.github.jaxblib.xsd.jakarta.model.SCL;
      */
     @GetMapping("/v4/ieds")
-    public List<String> testv4() throws IOException, URISyntaxException{
+    public List<String> testv4() throws IOException{
         InputStream xmlStream = getClass().getResourceAsStream("/" + CURRENT_FILE_TEST);
         com.github.jaxblib.xsd.jakarta.model.SCL scl = jakartaSCLJaxb.unmarshal(xmlStream);
         List<String> list = new ArrayList<>();
@@ -99,5 +119,6 @@ public class JAXBUnmarshalTest {
         scl.getIED().forEach(tied -> list.add(tied.getName()));
         return list;
     }
+
 
 }

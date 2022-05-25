@@ -6,12 +6,9 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.lfenergy.compas.scl2007b4.model.SCL;
 import org.lfenergy.compas.sct.commons.exception.ScdException;
-import org.springframework.core.io.ClassPathResource;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,17 +19,6 @@ class SclUtilTest {
     private static final String BIG_FILE_BASIC = "PERF/basic-7MB.xml";
     private static final String BIG_FILE_M_10 = "PERF/m10-70MB.xml";
     private final JavaJAXBUtilGeneric goodJAXBUtilGeneric = new JavaJAXBUtilGeneric();
-
-    @Test
-    void getData() throws IOException {
-        File resource = new ClassPathResource(BIG_FILE_BASIC).getFile();
-        String data = new String(
-                Files.readAllBytes(resource.toPath()),
-                StandardCharsets.UTF_8);
-        /*
-        assertEquals("...",data);
-         */
-    }
 
     @Test
     public void testJAXBUtilGeneric(){
@@ -55,10 +41,10 @@ class SclUtilTest {
      */
     public static void main(String args[]) throws ScdException, IOException {
         SclUtils sclUtils = new SclUtils();
-        byte[] data = sclUtils.getData(50);
+        byte[] data = sclUtils.getData(100);
         JavaJAXBUtilGeneric goodJAXBUtilGeneric = new JavaJAXBUtilGeneric();
         SCL scd = goodJAXBUtilGeneric.unmarshal(SCL.class, data);
-        assertEquals(50, scd.getIED().size());
-        Files.write(Paths.get("m50.xml"), data);
+        assertEquals(100, scd.getIED().size());
+        Files.write(Paths.get("m100-657MB.xml"), data);
     }
 }

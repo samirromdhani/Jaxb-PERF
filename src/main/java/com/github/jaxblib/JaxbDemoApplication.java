@@ -1,35 +1,28 @@
 package com.github.jaxblib;
 
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
+import com.github.jaxblib.commons.jaxb.JavaJAXBUtilGeneric;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
-import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
-
+/**
+ * @author samirromdhani
+ */
 @SpringBootApplication
-public class JaxbDemoApplication implements ApplicationRunner {
+public class JaxbDemoApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
-		SpringApplication.run(JaxbDemoApplication.class, args);
+		SpringApplication app = new SpringApplication(JaxbDemoApplication.class);
+		app.run();
 	}
 
-	@Override
-	public void run(ApplicationArguments args) {
+	public void run(String... args) throws Exception {
 	}
 
-	private File getFileFromResource(String fileName) throws URISyntaxException {
-
-		ClassLoader classLoader = getClass().getClassLoader();
-		URL resource = classLoader.getResource(fileName);
-		if (resource == null) {
-			throw new IllegalArgumentException("file not found! " + fileName);
-		} else {
-			return new File(resource.toURI());
-		}
-
+	@Bean
+	public JavaJAXBUtilGeneric goodJAXBUtilGeneric() {
+		return new JavaJAXBUtilGeneric();
 	}
 
 }

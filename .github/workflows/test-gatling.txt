@@ -1,0 +1,58 @@
+name: Jaxb-PERF CI Testing with gatling
+#TODO
+on:
+  push:
+    branches:
+      - 'feature/gatling'
+      - '!feature/develop'
+      - '!testing/**'
+      - '!main'
+
+jobs:
+  testings_feature_job:
+    runs-on: ubuntu-latest
+    name: A job to start test with gatling
+    steps:
+      - name: Checkout
+        id: clone
+        uses: actions/checkout@v3
+      - name: Set up JDK 1.11
+        id: jdk
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - name: Create custom Maven Settings.xml
+        id: mvnsetting
+        uses: whelk-io/maven-settings-xml-action@v18
+        with:
+          output_file: custom_maven_settings.xml
+          servers: '[{ "id": "github-packages-compas", "username": "samirromdhani", "password": "${{ secrets.GITHUB_TOKEN }}" }]'
+      - name: Build with Maven
+        id: test
+        run: mvn -s custom_maven_settings.xml clean install -DskipTests=true
+      - name: A step to build spring boot docker image
+        id: dockerbuild
+        run: docker build -t jaxblib:0.0.1-feature .
+      - name: A step to run spring boot docker image
+        id: dockerrun
+        run: docker run -d -p 8888:8888 --name jaxblib -t jaxblib:0.0.1-feature
+      - name: logs before gatling test
+        id: log1
+        run: docker ps && docker logs jaxblib
+      - name: A step to init test report with gatling
+        id: gatlinginit
+        run: mvn -s custom_maven_settings.xml mvn
+      - name: logs after gatling test
+        id: log2
+        run: docker ps && docker logs jaxblib
+      - name: A step to rename report folder
+        id: rename
+        run: mv target/gatling/simulation* target/gatling/simulation
+      - name: A step for zipping files and folders
+        id: zip
+        uses: papeloto/action-zip@v1
+        with:
+          files: target/gatling/simulation/
+          dest: perf-test-gatling.zip
+      #- name: A step to send test report with gatling by mail
